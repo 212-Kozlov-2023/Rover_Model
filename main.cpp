@@ -102,7 +102,7 @@ Hummock::Hummock(const double & x, const double & y, const double & z, const dou
 // }
 
 double Hummock::get_hummock_hight(const double & x, const double & y){
-    double z = 12;// Формула
+    double z = 1;// Формула
     return z;
 }
 
