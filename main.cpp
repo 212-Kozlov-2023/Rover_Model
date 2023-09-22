@@ -102,7 +102,7 @@ Hummock::Hummock(const double & x, const double & y, const double & z, const dou
 // }
 
 double Hummock::get_hummock_hight(const double & x, const double & y){
-    double z = 1;// Формула
+    double z = 12;// Формула
     return z;
 }
 
@@ -110,7 +110,8 @@ double Surface::get_surface_hight(const double & x, const double & y){
     double z = 0;
     for (size_t i = 0; i < MAX_POINTS_NUMBER; i++)
     {
-        z += points[i]->get_hummock_hight(x, y); 
+        z += points[i]->get_hummock_hight(x, y);
+
     }
     return z;
 }
