@@ -50,7 +50,7 @@ class Surface{
 
 
 int main(void){
-    Surface A(10, 10, 10);
+    Surface A(100, 100, 10);
     // ofstream file;
     // double x = A.get_surface_hight(1, 1);
     // cout << x;
