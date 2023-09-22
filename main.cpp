@@ -11,7 +11,8 @@ using namespace std;
 
 double my_rand(double min, double max);
 
-class Point{
+class Point//212-Козлов-Илья Класс точки: в нем *_cord соответственно x, y, z координаты точки
+{
     protected:
     double x_cord;
     double y_cord;
@@ -22,14 +23,14 @@ class Point{
     };
 };
 
-class Hummock : public Point{
+class Hummock : public Point //212-Козлов-Илья Класс бугорка(ямки) - является наследником точки, тк основывается на точке и sigma_x и sigma_y, которые представляют собой дисперсии по разным осям
+//formula - строка, в которой хранится то, как задается уравнение данного бугорка
+{
     friend class Surface;
-    // double deviation;
     double sigma_y, sigma_x;
     string formula;
     public:
     Hummock(const double & x = 0, const double & y = 0, const double & z = 0, const double & sig_x = 1, const double & sig_y = 1, const double & ax_rotat_angle = 0);
-    // Hummock(Point = Point(0, 0, 0), double sigma_x, double sigma_y);
     double get_hummock_hight(const double & x, const double & y);
 };
 
