@@ -1,0 +1,90 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+#define MAX_HIGH 4
+#define MAX_POINTS_NUMBER 20
+
+using namespace std;
+
+double my_rand(double min, double max);
+
+class Point{
+    double x_cord;
+    double y_cord;
+    double z_cord;
+    double deviation;
+    public:
+    string formula;
+    Point(const double & x = 0, const double & y = 0, const double & z = 0, const double & deviat = 1);
+};
+
+class Surface{
+    
+    double length;
+    double width;
+    double unevenness_degree;
+    Point * points[MAX_POINTS_NUMBER];
+    public:
+    Surface(const double & surf_len = 10, const double & surf_wid = 10, const double & surf_uneven = 0.1);
+    // int Print_in_file(FILE*file, Point *points);
+};
+
+
+
+
+
+int main(void){
+    Surface A(50, 50, 10);
+    ofstream file;
+
+    return 0;
+}
+
+
+
+
+
+
+
+double my_rand(double min, double max)
+{
+    double f = (double)rand() / RAND_MAX;
+    return min + f * (max - min);
+}
+
+Surface::Surface(const double & surf_len, const double & surf_wid, const double & surf_uneven){
+    length = surf_len;
+    width = surf_wid;
+    unevenness_degree = surf_uneven;
+    double random_x, random_y, random_z, random_deviant;
+    srand(time(NULL));
+    for (size_t i = 0; i < MAX_POINTS_NUMBER; i++)
+    {
+        random_x = my_rand(0, length);
+        
+        random_y = my_rand(0, width);
+        
+        random_z = my_rand(-MAX_HIGH+(MAX_HIGH/2), MAX_HIGH);
+        
+        random_deviant = my_rand(surf_uneven/2, surf_uneven);
+
+        points[i] = new Point(random_x, random_y, random_z, random_deviant);
+        cout << points[i]->formula << " + ";
+    }
+}
+
+Point::Point(const double & x, const double & y, const double & z, const double & deviat){
+        x_cord = x;
+        y_cord = y;
+        z_cord = z;
+        deviation = deviat;
+        formula = "(" + to_string(z) + "*" + "exp(" + "-1/2.0 * " + "((x-(" + to_string(x) + "))**2 + (y-(" + to_string(y) + "))**2" + ")/" + to_string(deviation) + "))";
+    };
+
+// Surface::Print_in_file(FILE*file, Point *points){
+    
+//     return 0;
+// }
