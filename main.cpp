@@ -4,14 +4,16 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <vector>
 #define _USE_MATH_DEFINES
+#define EPS 1e-14
 #define MAX_HUMMOCK_HIGHT 13
-#define MAX_HUMMOCKES_NUMBER 5
+#define MAX_HUMMOCKES_NUMBER 10
 #define MAX_STONE_HIGHT 3
-#define MAX_STONES_NUMBER 1
-#define MAX_LOGS_NUMBER 3
+#define MAX_STONES_NUMBER 0
+#define MAX_LOGS_NUMBER 0
 #define MAX_LOGS_HIGHT 3
-#define NET_STEP 0.2
+#define NET_STEP 0.1
 
 using namespace std;
 
@@ -37,8 +39,7 @@ class Hummock : public Point //212-Козлов-Илья Класс бугорк
 {
     friend class Surface;
     double sigma_y, sigma_x;
-    double rotation_angel;
-    string formula;
+    double rotation_angle;
     public:
     Hummock(const double & x = 0, const double & y = 0, const double & z = 0, const double & sig_x = 1, const double & sig_y = 1, const double & ax_rotat_angle = 0);
     double get_hummock_hight(const double & x, const double & y);
@@ -48,7 +49,6 @@ class Stone : public Point
 {
     friend class Surface;
     double radius_stone;
-    // string formula_stone;
     public:
     Stone(const double & x = 0.0, const double & y = 0, const double & radius = 0);
     double get_stone_hight(const double & x = 0.0, const double & y = 0.0);
@@ -68,16 +68,22 @@ class Log{
 
 
 class Surface{
+    friend class Log;
+    friend class Stone;
+    friend class Hummock;
     double length;
     double width;
     double unevenness_degree;
-    Hummock * ptrs_points[MAX_HUMMOCKES_NUMBER];
-    Stone * ptrs_stones[MAX_HUMMOCKES_NUMBER];
-    Log * ptrs_logs[MAX_LOGS_NUMBER];
+    vector<Hummock> hummocks;
+    vector<Stone> stones;
+    vector<Log> logs;
     public:
     Surface(const double & surf_len = 10, const double & surf_wid = 10, const double & surf_uneven = 0.1);
     double get_surface_hight(const double & x, const double & y);
     void Print_in_file(ofstream & file);
+    bool add_hummock(const double & x = 0.0, const double & y = 0.0, const double & z = 0.0, const double & sig_x = 1.0, const double & sig_y = 1.0, const double & ax_rotat_angle = 0);
+    bool add_stone(const double & x = 0.0, const double & y = 0.0, const double & radius = 0);
+    bool add_log(const double & x1 = 0.0, const double & y1 = 0.0, const double & x2 = 0.0, const double & y2 = 0.0, const double & radius = 0.0);
 };
 
 
@@ -86,15 +92,11 @@ class Surface{
 int main(void){
     Surface A(50, 50, 15);
     ofstream file("GNUplot.txt");
+    A.add_log(10, 5, 10, 25, 5);
     A.Print_in_file(file);
     file.close();
     return 0;
 }
-
-
-
-
-
 
 
 
@@ -114,7 +116,7 @@ Surface::Surface(const double & surf_len, const double & surf_wid, const double 
         random_sig_y = get_random(surf_uneven/5, surf_uneven);
         random_rotation = get_random(0, 2*3.1415);
 
-        ptrs_points[i] = new Hummock(random_x, random_y, random_z, random_sig_x, random_sig_y, random_rotation);
+        hummocks.push_back(Hummock(random_x, random_y, random_z, random_sig_x, random_sig_y, random_rotation));
     }
     for (size_t i = 0; i < MAX_STONES_NUMBER; i++)
     {
@@ -122,7 +124,8 @@ Surface::Surface(const double & surf_len, const double & surf_wid, const double 
         random_y = get_random(width/10, width*9/10);
         random_z = get_random(-MAX_HUMMOCK_HIGHT/2, MAX_HUMMOCK_HIGHT);
         random_radius = get_random(0, MAX_STONE_HIGHT);
-        ptrs_stones[i] = new Stone(random_x, random_y, random_radius);
+
+        stones.push_back(Stone(random_x, random_y, random_radius));
     }
     for (size_t i = 0; i < MAX_LOGS_NUMBER; i++)
     {
@@ -132,7 +135,7 @@ Surface::Surface(const double & surf_len, const double & surf_wid, const double 
         random_y2 = get_random(width/10, width*9/10);
         random_radius = get_random(0, MAX_LOGS_HIGHT);
         
-        ptrs_logs[i] = new Log(random_x, random_y, random_x2, random_y2, random_radius);
+        logs.push_back(Log(random_x, random_y, random_x2, random_y2, random_radius));
     }
 }
 
@@ -142,9 +145,8 @@ Hummock::Hummock(const double & x, const double & y, const double & z, const dou
         z_cord = z;
         sigma_x = sig_x;
         sigma_y = sig_y;
-        rotation_angel = ax_rotat_angle;
-        // formula = "(" + to_string(z) + "*" + "exp(" + "(-1)*((x-(" + to_string(x) + "))**2" + "/" + to_string(sigma_x) + " + " + "((y-(" + to_string(y) + "))**2)" + "/" + to_string(sigma_y) + ")))";
-    };
+        rotation_angle = ax_rotat_angle;
+}
 
 Stone::Stone(const double & x, const double & y, const double & radius){
     x_cord = x;
@@ -158,7 +160,6 @@ Log::Log(const double & x1, const double & y1, const double & x2, const double &
     y1_cord = y1;
     y2_cord = y2;
     log_radius = radius;
-    // cout << x1_cord << " " << x2_cord <<"\n" << y1_cord << " " << y2_cord;
 }
 
 
@@ -172,20 +173,66 @@ void Surface::Print_in_file(ofstream& file){
     }
     
 }
+bool Surface::add_hummock(const double & x, const double & y, const double & z, const double & sig_x, const double & sig_y, const double & ax_rotat_angle){
+    if(x > -EPS && y > -EPS && x < length && y < width){
+        hummocks.push_back(Hummock(x, y, z, sig_x, sig_y, ax_rotat_angle));
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool Surface::add_log(const double & x1, const double & y1, const double & x2, const double & y2, const double & radius)
+{
+    if(x1 > -EPS && y1 > -EPS && x1 < length && y1 < width && x2 > -EPS && y2 > -EPS && x2 < length && y2 < width){
+        logs.push_back(Log(x1, y1, x2, y2, radius));
+        return true;
+    }
+    else{ 
+        return false;
+    }
+}
+
+bool Surface::add_stone(const double &x, const double &y, const double &radius)
+{
+    if(x > -EPS && y > -EPS && x < length && y < width){
+        stones.push_back(Stone(x, y, radius));
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 double Log::get_log_hight(const double & x, const double & y){
     
-    double z = get_sqr(log_radius) - get_sqr(y-(x-x1_cord)*(y2_cord-y1_cord)/(x2_cord-x1_cord)-y1_cord);
-    if(z>=0 && fabs(y-((x1_cord-x2_cord)*x/(y2_cord-y1_cord))-(y1_cord+y2_cord)/2+(x1_cord-x2_cord)*(x1_cord+x2_cord)/(2*(y2_cord-y1_cord))) <=sqrt(get_sqr(x1_cord-x2_cord)+get_sqr(y1_cord-y2_cord))/2){
-        return sqrt(z);
+    if(fabs(x2_cord - x1_cord)>=EPS){
+    
+        double z = get_sqr(log_radius) - get_sqr(y-(x-x1_cord)*(y2_cord-y1_cord)/(x2_cord-x1_cord)-y1_cord);
+        cout << z << "\n";
+        if(z>=0 && fabs(y-((x1_cord-x2_cord)*x/(y2_cord-y1_cord))-(y1_cord+y2_cord)/2+(x1_cord-x2_cord)*(x1_cord+x2_cord)/(2*(y2_cord-y1_cord))) <=sqrt(get_sqr(x1_cord-x2_cord)+get_sqr(y1_cord-y2_cord))/2){
+            return sqrt(z);
+        }
+        else{
+            return 0;
+        }
     }
-    else{
-        return 0;
+    if(fabs(y2_cord - y1_cord)>=EPS){
+        double z = get_sqr(log_radius) - get_sqr(x-x1_cord);
+        if((y2_cord > y1_cord && y < y2_cord && y > y1_cord) || (y1_cord >= y2_cord && y >= y2_cord && y <= y1_cord)){
+            return sqrt(z);
+        }
+        else return 0;
     }
+    else return 0;
 }
 double Hummock::get_hummock_hight(const double & x, const double & y){
-    double z = z_cord*exp((-1)*(get_sqr(cos(rotation_angel)*(x-x_cord) + sin(rotation_angel)*(y-y_cord))/(sigma_x) + get_sqr(-sin(rotation_angel)*(x-x_cord) + cos(rotation_angel)*(y-y_cord))/sigma_y));
-    return z;
+    if(fabs(x_cord-x)<4*sigma_x || fabs(x_cord-x)<4*sigma_y || fabs(y_cord-y)<4*sigma_x || fabs(y_cord-y)<4*sigma_y){
+        double z = z_cord*exp((-1)*(get_sqr(cos(rotation_angle)*(x-x_cord) + sin(rotation_angle)*(y-y_cord))/(sigma_x) + get_sqr(-sin(rotation_angle)*(x-x_cord) + cos(rotation_angle)*(y-y_cord))/sigma_y));
+        return z;
+    }
+    else return 0;
 }
 
 double Stone::get_stone_hight(const double & x, const double & y)
@@ -201,20 +248,17 @@ double Stone::get_stone_hight(const double & x, const double & y)
 
 double Surface::get_surface_hight(const double & x, const double & y){
     double z = 0;
-    for (size_t i = 0; i < MAX_HUMMOCKES_NUMBER; i++)
+    for (size_t i = 0; i < hummocks.size(); i++)
     {
-        z += ptrs_points[i]->get_hummock_hight(x, y);
-
+        z += hummocks[i].get_hummock_hight(x, y);
     }
-    for (size_t i = 0; i < MAX_STONES_NUMBER; i++)
+    for (size_t i = 0; i < stones.size(); i++)
     {
-        z += ptrs_stones[i]->get_stone_hight(x, y);
-
+        z += stones[i].get_stone_hight(x, y);
     }
-    for (size_t i = 0; i < MAX_LOGS_NUMBER; i++)
+    for (size_t i = 0; i < logs.size(); i++)
     {
-        z += ptrs_logs[i]->get_log_hight(x, y);
-
+        z += logs[i].get_log_hight(x, y);
     }
     return z;
 }
