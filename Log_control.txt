@@ -1,0 +1,11 @@
+Number of random hummocks was setted Fri Oct  6 22:24:40 2023
+Number of random stones was setted Fri Oct  6 22:24:40 2023
+Number of random logs was setted Fri Oct  6 22:24:40 2023
+Surface was generated: length - 100, width - 100, unevennes degree - 15Fri Oct  6 22:24:40 2023
+Cursor was located Fri Oct  6 22:24:40 2023
+Hummock was created Fri Oct  6 22:24:40 2023
+Cursor was located Fri Oct  6 22:24:40 2023
+Stone was created Fri Oct  6 22:24:40 2023
+Cursor was located Fri Oct  6 22:24:40 2023
+Log was created Fri Oct  6 22:24:40 2023
+Surface was countedFri Oct  6 22:24:40 2023
