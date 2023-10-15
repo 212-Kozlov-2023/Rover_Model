@@ -8,7 +8,7 @@ Log::Log(const double & x1, const double & y1, const double & x2, const double &
     log_radius = radius;
 }
 
-double Log::get_log_hight(const double & x, const double & y){
+double Log::get_log_height(const double & x, const double & y){
     
     if(fabs(x2_cord - x1_cord)>=EPS){
     

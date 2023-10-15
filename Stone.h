@@ -7,5 +7,5 @@ class Stone
     double radius_stone;
     public:
     Stone(const double & x = 0.0, const double & y = 0, const double & radius = 0);
-    double get_stone_hight(const double & x = 0.0, const double & y = 0.0);
+    double get_stone_height(const double & x = 0.0, const double & y = 0.0);
 };

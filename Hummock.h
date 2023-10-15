@@ -11,5 +11,5 @@ class Hummock //212-Козлов-Илья Класс бугорка(ямки) - 
     double rotation_angle;
     public:
     Hummock(const double & x = 0, const double & y = 0, const double & z = 0, const double & sig_x = 1, const double & sig_y = 1, const double & ax_rotat_angle = 0);
-    double get_hummock_hight(const double & x, const double & y);
+    double get_hummock_height(const double & x, const double & y);
 };

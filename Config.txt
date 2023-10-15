@@ -1,0 +1,7 @@
+print date = YES;
+Log boundary file = "Boundary log.txt";
+Log control file = "Control log.txt";
+Surface command file = "surf_config.txt";
+Rover command file = "rover_config.txt";
+GNU file for surface = "GNUplot.txt";
+GNU file for rover = "Rover.txt";

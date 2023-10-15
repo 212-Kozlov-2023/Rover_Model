@@ -1,0 +1,11 @@
+Number of random hummocks was setted 
+Number of random stones was setted 
+Number of random logs was setted 
+Surface was generated: length - 100.000000, width - 100.000000, unevennes degree - 15.000000 
+Cursor was located 
+Hummock was created 
+Cursor was located 
+Stone was created 
+Cursor was located 
+Log was created 
+Surface was counted 

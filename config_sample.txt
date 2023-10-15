@@ -1,11 +1,12 @@
 print date = YES;
 log file name = "Log_boundary.txt";
-Create surface A: length = 1.23, width = 2.56, unevenness_degree = 5.6;
 Random hummocks = num; 
 Random stones = num;
 Random logs = num;
+Create surface A: length = 1.23, width = 2.56, unevenness_degree = 5.6;
+//Далее комнады от которые могут запускаться в любом порядке
 Set cursor = (x, y);
-Create hummock(max_hight, sigma_x, sigma_y, rotation);
+Create hummock(max_abs_height, sigma_x, sigma_y, rotation);
 Create stone(radius);
 Create log(x1, y1, x2, y2, radius);
 Count surface;

@@ -8,13 +8,18 @@ Surface::Surface(const double & surf_len, const double & surf_wid, const double 
     length = surf_len;
     width = surf_wid;
     unevenness_degree = surf_uneven;
+    pixels = new Point*[int(length/NET_STEP)+1];
+    for (int i = 0; i <= int(length/NET_STEP)+1; i++)
+    {
+        pixels[i] = new Point[int(width/NET_STEP)];
+    }
     double random_x, random_y, random_z, random_sig_y, random_sig_x, random_radius, random_rotation, random_x2, random_y2;
     srand(time(NULL));
     for (size_t i = 0; i < _max_rand_hummocks; i++)
     {
         random_x = get_random(length/10, length*9/10);
         random_y = get_random(width/10, width*9/10);
-        random_z = get_random(-MAX_HUMMOCK_HIGHT/2, MAX_HUMMOCK_HIGHT);
+        random_z = get_random(-MAX_HUMMOCK_HEIGHT/2, MAX_HUMMOCK_HEIGHT);
         random_sig_x = get_random(surf_uneven/5, surf_uneven);
         random_sig_y = get_random(surf_uneven/5, surf_uneven);
         random_rotation = get_random(0, 2*3.1415);
@@ -25,8 +30,8 @@ Surface::Surface(const double & surf_len, const double & surf_wid, const double 
     {
         random_x = get_random(length/10, length*9/10);
         random_y = get_random(width/10, width*9/10);
-        random_z = get_random(-MAX_HUMMOCK_HIGHT/2, MAX_HUMMOCK_HIGHT);
-        random_radius = get_random(0, MAX_STONE_HIGHT);
+        random_z = get_random(-MAX_HUMMOCK_HEIGHT/2, MAX_HUMMOCK_HEIGHT);
+        random_radius = get_random(0, MAX_STONE_HEIGHT);
 
         stones.push_back(Stone(random_x, random_y, random_radius));
     }
@@ -36,10 +41,17 @@ Surface::Surface(const double & surf_len, const double & surf_wid, const double 
         random_x2 = get_random(length/10, length*9/10);
         random_y = get_random(width/10, width*9/10);
         random_y2 = get_random(width/10, width*9/10);
-        random_radius = get_random(0, MAX_LOGS_HIGHT);
+        random_radius = get_random(0, MAX_LOGS_HEIGHT);
         
         logs.push_back(Log(random_x, random_y, random_x2, random_y2, random_radius));
     }
+}
+
+Surface:: ~Surface(){
+    for (int i = 0; i < int(length/NET_STEP); i++) {
+        delete[] pixels[i];
+    }
+    delete[] pixels;
 }
 
 bool Surface::add_hummock(const double & x, const double & y, const double & z, const double & sig_x, const double & sig_y, const double & ax_rotat_angle){
@@ -75,29 +87,39 @@ bool Surface::add_stone(const double &x, const double &y, const double &radius)
 }
 
 void Surface::Print_in_file(ofstream& file){
-    for (double i = 0.0; i <= length; i += NET_STEP)
+    for (int i = 0; i < int(length/NET_STEP); i++)
     {
-        for (double j = 0.0; j <= width; j += NET_STEP)
+        for (int j = 0; j < int(width/NET_STEP); j++)
         {
-            file << i << " " << j << " " << get_surface_hight(i, j) << "\n";
+            file << i*NET_STEP << " " << j*NET_STEP << " " << pixels[i][j].z_cord << "\n";
+        }
+    }
+}
+
+void Surface::count_surface(){
+    for (int i = 0; i <= int(length/NET_STEP); i++)
+    {
+        for (int j = 0; j <= int(width/NET_STEP); j++)
+        {
+            pixels[i][j] = Point(i*NET_STEP, j*NET_STEP, get_surface_height(i*NET_STEP, j*NET_STEP));
         }
     }
     
 }
 
-double Surface::get_surface_hight(const double & x, const double & y){
+double Surface::get_surface_height(const double & x, const double & y){
     double z = 0;
     for (size_t i = 0; i < hummocks.size(); i++)
     {
-        z += hummocks[i].get_hummock_hight(x, y);
+        z += hummocks[i].get_hummock_height(x, y);
     }
     for (size_t i = 0; i < stones.size(); i++)
     {
-        z += stones[i].get_stone_hight(x, y);
+        z += stones[i].get_stone_height(x, y);
     }
     for (size_t i = 0; i < logs.size(); i++)
     {
-        z += logs[i].get_log_hight(x, y);
+        z += logs[i].get_log_height(x, y);
     }
     return z;
 }

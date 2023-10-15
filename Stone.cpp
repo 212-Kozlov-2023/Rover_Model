@@ -6,7 +6,7 @@ Stone::Stone(const double & x, const double & y, const double & radius){
     radius_stone = radius;
 }
 
-double Stone::get_stone_hight(const double & x, const double & y)
+double Stone::get_stone_height(const double & x, const double & y)
 {
     double z = get_sqr(radius_stone) - get_sqr(x_cord - x) - get_sqr(y_cord - y);
     if(z >= 0){

@@ -37,3 +37,10 @@ void printer_with_time(string message, ofstream & file)
 double get_sqr(const double & num){
     return num*num;
 }
+
+bool can_double_to_int(const double & num){
+    if(fabs(int(num)-num) < EPS){
+        return 1;
+    }
+    else return 0;
+}

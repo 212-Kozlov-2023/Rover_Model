@@ -1,0 +1,10 @@
+Command to define number of random hummocks has been read! 
+Command to define number of random stones has been read! 
+Command to define number of random logs has been read! 
+Command to create surface has been read! 
+Command to create hummock has been read! 
+Command to define cursor location has been read!
+Command to create stone has been read! 
+Command to define cursor location has been read!
+Command to create log has been read! 
+Command to count surface has been read! 

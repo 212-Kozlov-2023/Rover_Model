@@ -1,13 +1,17 @@
 #include "Boundary.h"
 
-bool Boundary::read_config(){
-    bound_config_file.open("config.txt");
-    if(getline(bound_config_file, buff)){
-        if(is_substr(buff, "print date")){
-            if(is_substr(buff, "YES")){
+bool Boundary::read_config(const string & conf_name)
+{
+    string buffer;
+    bool is_surf_command = false, is_rover_command = false, is_cntrl_log = false, is_bndry_log = false;
+    config_file.open(conf_name);
+    while(getline(config_file, buffer)){
+        // cout << buffer << " \n";
+         if(is_substr(buffer, "print date")){
+            if(is_substr(buffer, "YES")){
                 is_date = true;
             }
-            else if(is_substr(buff, "NO")){
+            else if(is_substr(buffer, "NO")){
                 is_date = false;
             }
             else{
@@ -15,255 +19,228 @@ bool Boundary::read_config(){
                 return 0;
             }
         }
+        else if(is_substr(buffer,"Surface command file")){
+            is_surf_command = fill_filename(buffer, surface_command_filename);
+        }
+        else if(is_substr(buffer,"Rover command file")){
+            is_rover_command = fill_filename(buffer, rover_command_filename);
+        }
+        else if(is_substr(buffer,"Log boundary file")){
+            is_bndry_log = fill_filename(buffer, boundary_log_filename);
+        }
+        else if(is_substr(buffer,"Log control file")){
+            is_cntrl_log = fill_filename(buffer, controller_log_filename);
+        }
+        else if(is_substr(buffer,"GNU file for surface")){
+            fill_filename(buffer, gnu_surf_filename);
+        }
+        else if(is_substr(buffer,"GNU file for rover")){
+            fill_filename(buffer, gnu_rover_filename);
+        }
         else{
-            cout << "Error! The first line should have date setting like in sample config file! Try again.\n";
+            cout << "\n Incorrect command in config file. Compare with sample! \n";
         }
     }
-    else{
-        cout << "Error! Config file is empty!!!\n";
-    }
-    while(getline(bound_config_file, buff) && !is_counted){
-        if(!is_log && is_substr(buff,"log file name")){
-            int i = 0;
-            for (i = 0; i < 256; i++)
-            {
-                if(buff[i] == '"'){
-                    break;
+    if(is_surf_command && is_rover_command && is_bndry_log && is_cntrl_log)
+            return true;
+        else return false;
+    return false;
+}
+
+bool Boundary::read_surface_config(){
+    string buffer;
+    ifstream surface_command_file;
+    surface_command_file.open(surface_command_filename);
+    bool is_surface = false;
+    int is_rand = 0;
+    while(getline(surface_command_file, buffer)){
+        // cout << buffer << "\n";
+        if(is_substr(buffer, "Random hummocks")){
+            double rand_humm_number;
+            if(sscanf(buffer.c_str(), "%*[^=]=%lf;", &rand_humm_number) == 1 && !is_extra_symbol_after_semicolon(buffer)){
+                print_message_in_log("Command to define number of random hummocks has been read! ");
+                if(controller->surface_set_random_hummocks(rand_humm_number)== 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
                 }
-            }
-            i++;
-            for (i; i < 256 && buff[i] != '"'; i++)
-            {
-                log_file_name += buff[i];
-            }
-            bound_log_file.open(log_file_name);
-            if(bound_log_file.is_open() == 0){
-                cout << "Ошибка\n";
-                return 0;
-            }
-            else{
-                is_log = true;
-                if(is_date){
-                    printer_with_time("log is open! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "log is open! Date: ";
-                }
-            } 
-        }
-        
-        else if(is_log && is_substr(buff, "Random hummocks")){
-            double temp;
-            if(sscanf(buff.c_str(), "%*[^=]=%lf;", &temp) == 1 && !is_extra_symbol_after_semicolon(buff)){
-                if(is_date){
-                    printer_with_time("Command to define number of random hummocks has been read! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "Command to define number of random hummocks has been read!\n";
-                }
-                controller.set_random_hummocks(temp);
                 is_rand += 1;
             }
             else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to set number of random hummocks. You need to write 1 number as described in config sample and don`t write something after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to set number of random hummocks. You need to write 1 number as described in config sample and don`t write something after semicolon! \n";
-                }
+                print_message_in_log("ERROR! Wrong command to set number of random hummocks. You need to write 1 positive integer number as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
                 return 0;
             }
         }
-        else if(is_log && is_substr(buff, "Random stones")){
+        else if(is_substr(buffer, "Random stones")){
             double temp;
-            if(sscanf(buff.c_str(), "%*[^=]=%lf;", &temp) == 1 && is_extra_symbol_after_semicolon(buff) == 0){
-                if(is_date){
-                    printer_with_time("Command to define number of random stones has been read! Date: ", bound_log_file);
+            if(sscanf(buffer.c_str(), "%*[^=]=%lf;", &temp) == 1 && is_extra_symbol_after_semicolon(buffer) == 0){
+                print_message_in_log("Command to define number of random stones has been read! ");
+                if(controller->surface_set_random_stones(temp)== 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
                 }
-                else{
-                    bound_log_file << "Command to define number of random stones has been read!\n";
-                }
-                controller.set_random_stones(temp);
                 is_rand += 1;
             }
             else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to set number of random stones. You need to write 1 number as described in config sample and don`t write something after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to set number of random stones. You need to write 1 number as described in config sample and don`t write something after semicolon! \n";
-                }
+                print_message_in_log("ERROR! Wrong command to set number of random stones. You need to write 1 number as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
                 return 0;
             }
         }
-        else if(is_log && is_substr(buff, "Random logs")){
+        else if(is_substr(buffer, "Random logs")){
             double temp;
-            if(sscanf(buff.c_str(), "%*[^=]=%lf;", &temp) == 1 && is_extra_symbol_after_semicolon(buff) == 0){
-                if(is_date){
-                    printer_with_time("Command to define number of random logs has been read! Date: ", bound_log_file);
+            if(sscanf(buffer.c_str(), "%*[^=]=%lf;", &temp) == 1 && is_extra_symbol_after_semicolon(buffer) == 0){
+                print_message_in_log("Command to define number of random logs has been read! ");
+                if(controller->surface_set_random_logs(temp)== 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
                 }
-                else{
-                    bound_log_file << "Command to define number of random logs has been read!\n";
-                }
-                controller.set_random_logs(temp);
                 is_rand += 1;
             }
             else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to set number of random logs. You need to write 1 number as described in config sample and don`t write something after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to set number of random logs. You need to write 1 number as described in config sample and don`t write something after semicolon! \n";
-                }
+                print_message_in_log("ERROR! Wrong command to set number of random logs. You need to write 1 number as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
                 return 0;
             }
         }
-        else if(is_rand == 3 && is_substr(buff, "Create surface A: ")){
+        else if(is_rand == 3 && is_substr(buffer, "Create surface A: ")){
             double temp1, temp2, temp3;
 
-            if(sscanf(buff.c_str(), "%*[^=]=%lf,%*[^=]=%lf,%*[^=]=%lf;", &temp1, &temp2, &temp3) == 3 && is_extra_symbol_after_semicolon(buff) == 0){
-                if(is_date){
-                    printer_with_time("Command to create surface has been read! Date: ", bound_log_file);
+            if(sscanf(buffer.c_str(), "%*[^=]=%lf,%*[^=]=%lf,%*[^=]=%lf;", &temp1, &temp2, &temp3) == 3 && is_extra_symbol_after_semicolon(buffer) == 0){
+                print_message_in_log("Command to create surface has been read! ");
+                if(controller->surface_create(temp1, temp2, temp3)== 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
                 }
-                else{
-                    bound_log_file << "Command to create surface has been read!\n";
-                }
-                controller.create_surface(temp1, temp2, temp3);
                 is_surface = true;
             }
             else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to create surface. You need to write 3 numbers as described in config sample and don`t write something after semicolon! ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to create surface. You need to write 3 numbers as described in config sample and don`t write something after semicolon! \n";
-                }
+                print_message_in_log("ERROR! Wrong command to create surface. You need to write 3 numbers as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
                 return 0;
             }   
         }
-        else if(is_log && is_surface && is_substr(buff,"Set cursor")){
+        else if(is_surface && is_substr(buffer,"Set cursor")){
             double temp1, temp2;
-            if(sscanf(buff.c_str(), "%*[^(](%lf, %lf)", &temp1, &temp2) == 2 && is_extra_symbol_after_semicolon(buff) == 0){ 
-                if(is_date){
-                    printer_with_time("Command to define cursor location has been read! Date: ", bound_log_file);
+            if(sscanf(buffer.c_str(), "%*[^(](%lf, %lf)", &temp1, &temp2) == 2 && is_extra_symbol_after_semicolon(buffer) == 0){ 
+                print_message_in_log("Command to define cursor location has been read!");
+                if(controller->set_cursor(temp1, temp2)== 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
                 }
-                else{
-                    bound_log_file << "Command to define cursor location has been read!\n";
-                }
-                controller.set_cursor(temp1, temp2);
             }    
             else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to set cursor location. You need to write 2 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to set cursor location. You need to write 2 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon!\n";
-                }
+                print_message_in_log("ERROR! Wrong command to set cursor location. You need to write 2 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
                 return 0;
             }
         }
-        else if(is_log && is_surface && is_substr(buff,"Create hummock(")){
+        else if(is_surface && is_substr(buffer,"Create hummock(")){
             double temp1, temp2, temp3, temp4;
-            if(sscanf(buff.c_str(), "%*[^(](%lf, %lf, %lf, %lf);", &temp1, &temp2, &temp3, &temp4) == 4 && is_extra_symbol_after_semicolon(buff) == 0){
-                if(is_date){
-                    printer_with_time("Command to create hummock has been read! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "Command to create hummock has been read!\n";
-                }
-                controller.create_hummock(temp1, temp2, temp3, temp4);
-            }
-            else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to create hummock. You need to write 4 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to create hummock. You need to write 4 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon!\n";
-                }
-                return 0;
-            }
-        }
-        else if(is_log && is_surface && is_substr(buff,"Create stone")){
-            double temp;
-            if(sscanf(buff.c_str(), "%*[^(](%lf);", &temp) == 1 && is_extra_symbol_after_semicolon(buff) == 0){
-                if(is_date){
-                    printer_with_time("Command to create stone has been read! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "Command to create stone has been read!\n";
-                }
-                controller.create_stone(temp);
-            }
-            else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to create stone. You need to write 1 number in parentheses as described in config sample and don`t write something after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to create stone. You need to write 1 number in parentheses as described in config sample and don`t write something after semicolon!\n";
-                }
-                return 0;
-            }
-        }
-        else if(is_log && is_surface && is_substr(buff,"Create log")){
-            double temp1, temp2, temp3, temp4, temp5;
-            if(sscanf(buff.c_str(), "%*[^(](%lf, %lf, %lf, %lf, %lf);", &temp1, &temp2, &temp3, &temp4, &temp5) == 5 && is_extra_symbol_after_semicolon(buff) == 0){
-                if(is_date){
-                    printer_with_time("Command to create log has been read! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "Command to create log has been read!\n";
-                }
-                controller.create_log(temp1, temp2, temp3, temp4, temp5);
-            }
-            else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to create log. You need to write 5 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to create log. You need to write 5 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon!\n";
-                }
-                return 0;
-            }
-        }
-        else if(is_log && is_surface && is_substr(buff,"Count surface;")){
-            if(is_extra_symbol_after_semicolon(buff) == 0){
-                if(is_date){
-                    printer_with_time("Command to count surface has been read! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "Command to count surface has been read!\n";
-                }
-                controller.count_surface();
-                is_counted = true;
-            }
-            else{
-                if(is_date){
-                    printer_with_time("ERROR! Wrong command to count surface! Try delete extra symbols after semicolon! Date: ", bound_log_file);
-                }
-                else{
-                    bound_log_file << "ERROR! Wrong command to count surface! Try delete extra symbols after semicolon!\n";
+            if(sscanf(buffer.c_str(), "%*[^(](%lf, %lf, %lf, %lf);", &temp1, &temp2, &temp3, &temp4) == 4 && is_extra_symbol_after_semicolon(buffer) == 0){
+                print_message_in_log("Command to create hummock has been read! ");
+                if(controller->surface_create_hummock(temp1, temp2, temp3, temp4)== 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
                     return 0;
                 }
             }
+            else{
+                print_message_in_log("ERROR! Wrong command to create hummock. You need to write 4 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
+                return 0;
+            }
         }
-        else if(is_counted == 1){
-            if(is_date){
-                printer_with_time("ERROR! YOU CANNOT CHANGE SURFACE AFTER COUNTING", bound_log_file);
+        else if(is_surface && is_substr(buffer,"Create stone")){
+            double temp;
+            if(sscanf(buffer.c_str(), "%*[^(](%lf);", &temp) == 1 && is_extra_symbol_after_semicolon(buffer) == 0){
+                print_message_in_log("Command to create stone has been read! ");
+                if(controller->surface_create_stone(temp) == 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
+                }
             }
             else{
-                bound_log_file << "ERROR! UNKNOWN COMMAND!\n";
+                print_message_in_log("ERROR! Wrong command to create stone. You need to write 1 number in parentheses as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
+                return 0;
             }
-            return 0;
+        }
+        else if(is_surface && is_substr(buffer,"Create log")){
+            double temp1, temp2, temp3, temp4, temp5;
+            if(sscanf(buffer.c_str(), "%*[^(](%lf, %lf, %lf, %lf, %lf);", &temp1, &temp2, &temp3, &temp4, &temp5) == 5 && is_extra_symbol_after_semicolon(buffer) == 0){
+                print_message_in_log("Command to create log has been read! ");
+                if(controller->surface_create_log(temp1, temp2, temp3, temp4, temp5) == 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
+                }
+            }
+            else{
+                print_message_in_log("ERROR! Wrong command to create log. You need to write 5 numbers in parentheses separated by commas as described in config sample and don`t write something after semicolon! ");
+                surface_command_file.close();
+                return 0;
+            }
+        }
+        else if(is_surface && is_substr(buffer,"Count surface;")){
+            if(is_extra_symbol_after_semicolon(buffer) == 0){
+                print_message_in_log("Command to count surface has been read! ");
+                if(controller->surface_count() == 0){
+                    print_message_in_log("The Controller did not accept these values ");
+                    surface_command_file.close();
+                    return 0;
+                }
+                is_counted = true;
+            }
+            else{
+                print_message_in_log("ERROR! Wrong command to count surface! Try delete extra symbols after semicolon! ");
+                surface_command_file.close();
+                return 0;
+            }
         }
         else{
-            if(is_date){
-                printer_with_time("ERROR! UNKNOWN COMMAND!", bound_log_file);
-            }
-            else{
-                bound_log_file << "ERROR! UNKNOWN COMMAND!\n";
-            }
+            print_message_in_log("ERROR! UNKNOWN COMMAND! ");
+            surface_command_file.close();
             return 0;
         }
     }
-    return 1;   
+    surface_command_file.close();
+    return 1; 
+}
+
+void Boundary::print_message_in_log(const string & message)
+{
+    if(is_date){
+        printer_with_time(message, boundary_log_file);
+    }
+    else{
+        boundary_log_file << message <<"\n";
+    }
+}
+
+bool Boundary::fill_filename(const string & line, string & filename)
+{
+    int i = 0;
+    while(line[i] != '"'){
+        i++;
+    }
+    i++;
+    for (int j = i; j < 128 && line[j] != '"'; j++)
+    {
+        filename += line[j];
+    }
+    if(filename.empty()) return false;
+    else return true;
+}
+
+bool Boundary::read_rover_config(){
+    rover_command_file.open(rover_command_filename);
+    return 1;
+    
 }
