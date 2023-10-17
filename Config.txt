@@ -5,3 +5,4 @@ Surface command file = "surf_config.txt";
 Rover command file = "rover_config.txt";
 GNU file for surface = "GNUplot.txt";
 GNU file for rover = "Rover.txt";
+The final GNU file = "GNU.txt";

@@ -1,1 +1,12 @@
-Create Rover(direction, length_in_pixels, width_in_pixels, radius_of_wheel_in_pixels, critical_side_slope, critical_along_slope, x, y);
+Create Rover(direction, length_in_pixels, width_in_pixels, radius_of_wheel_in_pixels, critical_side_slope, critical_along_slope, x, y, straight_speed, sideways_speed);
+turn 180;
+turn 90 clockwise;
+turn 90 counterclockwise;
+drive forward at a speed of 1;
+drive forward at a speed of 2;
+drive to the northeast;
+drive to the northwest;
+drive to the NNE;
+drive to the NEE;
+drive to the NNW;
+drive to the NWW;

@@ -1,10 +1,84 @@
-Command to define number of random hummocks has been read! 
-Command to define number of random stones has been read! 
-Command to define number of random logs has been read! 
-Command to create surface has been read! 
-Command to create hummock has been read! 
-Command to define cursor location has been read!
-Command to create stone has been read! 
-Command to define cursor location has been read!
-Command to create log has been read! 
-Command to count surface has been read! 
+Command to define number of random hummocks has been read! Tue Oct 17 10:02:13 2023
+Command to define number of random stones has been read! Tue Oct 17 10:02:13 2023
+Command to define number of random logs has been read! Tue Oct 17 10:02:13 2023
+Command to create surface has been read! Tue Oct 17 10:02:13 2023
+Command to create hummock has been read! Tue Oct 17 10:02:13 2023
+Command to define cursor location has been read!Tue Oct 17 10:02:13 2023
+Command to create stone has been read! Tue Oct 17 10:02:13 2023
+Command to define cursor location has been read!Tue Oct 17 10:02:13 2023
+Command to create log has been read! Tue Oct 17 10:02:13 2023
+Command to count surface has been read! Tue Oct 17 10:02:13 2023
+Command to create rover has been read! Tue Oct 17 10:02:15 2023
+Command to turn rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+Comand to move the rover has been read! Tue Oct 17 10:02:15 2023
+The rover broke down Tue Oct 17 10:02:15 2023

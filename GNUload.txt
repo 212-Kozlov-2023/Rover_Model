@@ -1,0 +1,1 @@
+splot "//wsl.localhost/Ubuntu/home/illka/VScode Problems/Rover_Model/GNUplot.txt" w l, "//wsl.localhost/Ubuntu/home/illka/VScode Problems/Rover_Model/Rover.txt" w l

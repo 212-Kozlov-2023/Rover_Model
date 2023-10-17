@@ -8,6 +8,7 @@ class Point//212-Козлов-Илья Класс точки: в нем *_cord �
 {
     friend class Surface;
     friend class Rover;
+    friend class Control;
     protected:
     double x_cord;
     double y_cord;
