@@ -264,12 +264,20 @@ bool Boundary::read_rover_config(){
     while (getline(rover_command_file, buffer))
     {
         if(is_substr(buffer, "Create Rover")){
-            int temp1, temp2, temp3, temp4, temp9, temp10;
+            // int temp1, temp2, temp3, temp4, temp9, temp10;
+            // double temp5, temp6, temp7, temp8;
+            int temp1, temp2;
             double temp5, temp6, temp7, temp8;
-            if(sscanf(buffer.c_str(), "%*[^(](%d, %d, %d, %d, %lf, %lf, %lf, %lf, %d, %d);", &temp1, &temp2, &temp3, &temp4, &temp5, &temp6, &temp7, &temp8, &temp9, &temp10) !=0 && is_extra_symbol_after_semicolon(buffer) == 0){
+            // if(sscanf(buffer.c_str(), "%*[^(](%d, %d, %d, %d, %lf, %lf, %lf, %lf, %d, %d);", &temp1, &temp2, &temp3, &temp4, &temp5, &temp6, &temp7, &temp8, &temp9, &temp10) !=0 && is_extra_symbol_after_semicolon(buffer) == 0){
+            //     // cout << temp1 << temp2 << temp3 << temp4 << temp5 << temp6 << temp7 << temp8 << temp9 << temp10;
+            //     print_message_in_log("Command to create rover has been read! ");
+            //     controller->rover_create(temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10);
+            //     is_rover = true;
+            // }
+            if(sscanf(buffer.c_str(), "%*[^(](%d, %d, %lf, %lf, %lf, %lf);", &temp1, &temp2, &temp5, &temp6, &temp7, &temp8) !=0 && is_extra_symbol_after_semicolon(buffer) == 0){
                 // cout << temp1 << temp2 << temp3 << temp4 << temp5 << temp6 << temp7 << temp8 << temp9 << temp10;
                 print_message_in_log("Command to create rover has been read! ");
-                controller->rover_create(temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10);
+                controller->rover_create(temp1, temp2, temp5, temp6, temp7, temp8);
                 is_rover = true;
             }
             else{
@@ -290,9 +298,25 @@ bool Boundary::read_rover_config(){
                 return 0;
             }
         }
+        else if(is_rover && is_substr(buffer, "turn 45 clockwise;")){
+            print_message_in_log("Comand to turn rover has been read! ");
+            if(controller->rover_turn_45_clock() == 0){
+                print_message_in_log("The rover broke down ");
+                rover_command_file.close();
+                return 0;
+            }
+        }
         else if(is_rover && is_substr(buffer, "turn 90 counterclockwise;")){
             print_message_in_log("Comand to turn rover has been read! ");
             if(controller->rover_turn_90_counterclock() == 0){
+                print_message_in_log("The rover broke down ");
+                rover_command_file.close();
+                return 0;
+            }
+        }
+        else if(is_rover && is_substr(buffer, "turn 45 counterclockwise;")){
+            print_message_in_log("Comand to turn rover has been read! ");
+            if(controller->rover_turn_45_counterclock() == 0){
                 print_message_in_log("The rover broke down ");
                 rover_command_file.close();
                 return 0;
@@ -306,70 +330,70 @@ bool Boundary::read_rover_config(){
                 return 0;
             }
         }
-        else if(is_rover && is_substr(buffer, "drive forward at a speed of 2;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_forward_2() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
-        else if(is_rover && is_substr(buffer, "drive forward at a speed of 2;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_forward_2() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
-        else if(is_rover && is_substr(buffer, "drive to the northeast;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_NE_1() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
-        else if(is_rover && is_substr(buffer, "drive to the northwest;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_NW_1() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
-        else if(is_rover && is_substr(buffer, "drive to the NNE;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_NNE_2() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
-        else if(is_rover && is_substr(buffer, "drive to the NEE;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_NEE_2() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
-        else if(is_rover && is_substr(buffer, "drive to the NNW;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_NNW_2() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
-        else if(is_rover && is_substr(buffer, "drive to the NWW;")){
-            print_message_in_log("Comand to move the rover has been read! ");
-            if(controller->rover_drive_NWW_2() == 0){
-                print_message_in_log("The rover broke down ");
-                rover_command_file.close();
-                return 0;
-            }
-        }
+        // else if(is_rover && is_substr(buffer, "drive forward at a speed of 2;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_forward_2() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
+        // else if(is_rover && is_substr(buffer, "drive forward at a speed of 2;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_forward_2() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
+        // else if(is_rover && is_substr(buffer, "drive to the northeast;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_NE_1() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
+        // else if(is_rover && is_substr(buffer, "drive to the northwest;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_NW_1() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
+        // else if(is_rover && is_substr(buffer, "drive to the NNE;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_NNE_2() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
+        // else if(is_rover && is_substr(buffer, "drive to the NEE;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_NEE_2() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
+        // else if(is_rover && is_substr(buffer, "drive to the NNW;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_NNW_2() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
+        // else if(is_rover && is_substr(buffer, "drive to the NWW;")){
+        //     print_message_in_log("Comand to move the rover has been read! ");
+        //     if(controller->rover_drive_NWW_2() == 0){
+        //         print_message_in_log("The rover broke down ");
+        //         rover_command_file.close();
+        //         return 0;
+        //     }
+        // }
         else if(is_rover && is_substr(buffer, "Create Rover")){
             print_message_in_log("ERROR! Wrong command. You can constructe only one rover! ");
             rover_command_file.close();

@@ -25,15 +25,18 @@ class Control{
     void surface_delete();
 
 
-    void rover_create(const int & dir, const int & length, const int & width, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const int & str_speed, const int & side_speed);
+    // void rover_create(const int & dir, const int & length, const int & width, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const int & str_speed, const int & side_speed);
+    void rover_create(const int & dir, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y);
     bool rover_drive_forward_1();
-    bool rover_drive_NW_1();
-    bool rover_drive_NE_1();
-    bool rover_drive_forward_2();
-    bool rover_drive_NNE_2();
-    bool rover_drive_NNW_2();
-    bool rover_drive_NWW_2();
-    bool rover_drive_NEE_2();
+    // bool rover_drive_NW_1();
+    // bool rover_drive_NE_1();
+    // bool rover_drive_forward_2();
+    // bool rover_drive_NNE_2();
+    // bool rover_drive_NNW_2();
+    // bool rover_drive_NWW_2();
+    // bool rover_drive_NEE_2();
+    bool rover_turn_45_clock();
+    bool rover_turn_45_counterclock();
     bool rover_turn_90_clock();
     bool rover_turn_90_counterclock();
     void rover_turn_180();

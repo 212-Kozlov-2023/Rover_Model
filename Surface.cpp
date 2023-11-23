@@ -9,9 +9,9 @@ Surface::Surface(const double & surf_len, const double & surf_wid, const double 
     width = surf_wid;
     unevenness_degree = surf_uneven;
     pixels = new Point*[int(length/NET_STEP)+1];
-    for (int i = 0; i <= int(length/NET_STEP)+1; i++)
+    for (int i = 0; i <= int(length/NET_STEP); i++)
     {
-        pixels[i] = new Point[int(width/NET_STEP)];
+        pixels[i] = new Point[int(width/NET_STEP)+1];
     }
     double random_x, random_y, random_z, random_sig_y, random_sig_x, random_radius, random_rotation, random_x2, random_y2;
     srand(time(NULL));
@@ -87,9 +87,9 @@ bool Surface::add_stone(const double &x, const double &y, const double &radius)
 }
 
 void Surface::Print_in_file(ofstream& file){
-    for (int i = 0; i < int(length/NET_STEP); i++)
+    for (int i = 0; i <= int(length/NET_STEP); i++)
     {
-        for (int j = 0; j < int(width/NET_STEP); j++)
+        for (int j = 0; j <= int(width/NET_STEP); j++)
         {
             file << i*NET_STEP << " " << j*NET_STEP << " " << pixels[i][j].z_cord << "\n";
         }

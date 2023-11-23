@@ -1,83 +1,160 @@
-Number of random hummocks was setted Tue Oct 17 10:02:13 2023
-Number of random stones was setted Tue Oct 17 10:02:13 2023
-Number of random logs was setted Tue Oct 17 10:02:13 2023
-Surface was generated: length - 100.000000, width - 100.000000, unevennes degree - 15.000000 Tue Oct 17 10:02:13 2023
-Cursor was located Tue Oct 17 10:02:13 2023
-Hummock was created Tue Oct 17 10:02:13 2023
-Cursor was located Tue Oct 17 10:02:13 2023
-Stone was created Tue Oct 17 10:02:13 2023
-Cursor was located Tue Oct 17 10:02:13 2023
-Log was created Tue Oct 17 10:02:13 2023
-Surface was counted Tue Oct 17 10:02:15 2023
-The rover successfully turned 180 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover successfully drove forward at a speed of 1 Tue Oct 17 10:02:15 2023
-The rover broke down Tue Oct 17 10:02:15 2023
+Number of random hummocks was setted Sat Nov 18 04:24:44 2023
+Number of random stones was setted Sat Nov 18 04:24:44 2023
+Number of random logs was setted Sat Nov 18 04:24:44 2023
+Surface was generated: length - 100.000000, width - 100.000000, unevennes degree - 15.000000 Sat Nov 18 04:24:44 2023
+Cursor was located Sat Nov 18 04:24:44 2023
+Hummock was created Sat Nov 18 04:24:44 2023
+Cursor was located Sat Nov 18 04:24:44 2023
+Stone was created Sat Nov 18 04:24:44 2023
+Cursor was located Sat Nov 18 04:24:44 2023
+Log was created Sat Nov 18 04:24:44 2023
+Surface was counted Sat Nov 18 04:24:46 2023
+The rover successfully turned 180 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully turned 45 counterclockwise Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully turned 45 counterclockwise Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover successfully drove forward at a speed of 1 Sat Nov 18 04:24:46 2023
+The rover broke down Sat Nov 18 04:24:46 2023

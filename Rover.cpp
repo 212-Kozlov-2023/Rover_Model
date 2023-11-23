@@ -1,14 +1,15 @@
 #include "Rover.h"
 
-Rover::Rover(const int & dir, const int & length, const int & width, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const int & str_speed, const int & side_speed, const Surface * surf){
-    length_in_pixels = length;
-    width_in_pixels = width;
+// Rover::Rover(const int & dir, const int & length, const int & width, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const int & str_speed, const int & side_speed, const Surface * surf){
+Rover::Rover(const int & dir, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const Surface * surf){
+    // length_in_pixels = length;
+    // width_in_pixels = width;
     radius_of_wheels_in_pixels = rad;
     critical_along_tilt = crit_slope_along;
     critical_side_tilt = crit_slope_side;
     rover_surface = surf;
-    straight_speed = str_speed;
-    sideways_speed = side_speed;
+    // straight_speed = str_speed;
+    // sideways_speed = side_speed;
     center_gravity_location = Point(start_point_x, start_point_y, rover_surface->pixels[int(start_point_x/NET_STEP)][int(start_point_y/NET_STEP)].z_cord);
     direction = dir;
     
@@ -25,7 +26,7 @@ Rover::Rover(const int & dir, const int & length, const int & width, const int &
 
 bool Rover::check_condition(){
     // cout << "\n " << center_gravity_location.x_cord << " " << center_gravity_location.y_cord << " " << center_gravity_location.z_cord; 
-    if(center_gravity_location.x_cord - length_in_pixels*NET_STEP/2 < 0 || center_gravity_location.y_cord - length_in_pixels*NET_STEP/2 < 0 || center_gravity_location.x_cord + length_in_pixels * NET_STEP/2 > rover_surface->length || center_gravity_location.y_cord + length_in_pixels*NET_STEP/2 > rover_surface->width) return 0;
+    if(center_gravity_location.x_cord - NET_STEP < 0 || center_gravity_location.y_cord - NET_STEP < 0 || center_gravity_location.x_cord + NET_STEP > rover_surface->length || center_gravity_location.y_cord + NET_STEP > rover_surface->width) return 0;
     double max_z = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)].z_cord;
     double min_z = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)].z_cord;
     double z = 0;
@@ -103,6 +104,87 @@ bool Rover::turn_90_clockwise(){
     case -10:
         direction = 1;
         break;
+    case 11:
+        direction = 1101;
+        break;
+    case 1101:
+        direction = 101;
+        break;
+    case 101:
+        direction = -11;
+        break;
+    case -11:
+        direction = 11;
+        break;
+    default:
+        break;
+    }
+    if(check_condition() == 0){
+        BOOM();
+        return 0;
+    }
+    else return 1;
+}
+
+bool Rover::turn_45_counterclockwise(){
+    switch (direction){
+        case 1:
+            direction = -11;
+            break;
+        case -11:
+            direction = -10;
+            break;
+        case -10:
+            direction = 101;
+            break;
+        case 101:
+            direction = -1;
+            break;
+        case -1:
+            direction = 1101;
+            break;
+        case 1101:
+            direction = 10;
+            break;
+        case 10:
+            direction = 11;
+            break;
+        case 11:
+            direction = 1;
+            break;
+        default:
+            break;
+    }
+    return 1;
+}
+
+bool Rover::turn_45_clockwise(){
+    switch (direction)
+    {
+    case 1:
+        direction = 11;
+        break;
+    case 11:
+        direction = 10;
+        break;
+    case 10:
+        direction = 1101;
+        break;
+    case 1101:
+        direction = -1;
+        break;
+    case -1:
+        direction = 101;
+        break;
+    case 101:
+        direction = -10;
+        break;
+    case -10:
+        direction = -11;
+        break;
+    case -11:
+        direction = 1;
+        break;
     default:
         break;
     }
@@ -128,6 +210,18 @@ bool Rover::turn_90_counterclockwise(){
     case 10:
         direction = 1;
         break;
+    case 11:
+        direction = -11;
+        break;
+    case -11:
+        direction = 101;
+        break;
+    case 101:
+        direction = 1101;
+        break;
+    case 1101:
+        direction = 11;
+        break;
     default:
         break;
     }
@@ -139,31 +233,61 @@ bool Rover::turn_90_counterclockwise(){
 }
 
 void Rover::turn_180(){
-    direction = -direction;
+    if(direction == 1 ||direction == -1 || direction == 10 || direction == -10){
+        direction = -direction;
+    }
+    else{
+        switch (direction)
+        {
+        case -11:
+            direction = 1101;
+            break;
+        case 1101:
+            direction = -11;
+            break;
+        case 11:
+            direction = 101;
+            break;
+        case 101:
+            direction = 11;
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 bool Rover::drive_forward_speed_1(){
     switch (direction)
     {
     case 1:
-        // center_gravity_location.y_cord+NET_STEP;
-        // center_gravity_location.z_cord = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)].z_cord;
-        // cout << " \n" << int(center_gravity_location.y_cord/NET_STEP)+1 << " - x \n";
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+straight_speed];
-        // cout << " \n" << int(center_gravity_location.y_cord/NET_STEP) << " - x` \n";
-        // cout << "\n Поехали 1\n";
+        change_cords(0, straight_speed);
+        print_sensor();
+        // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+1].y_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+1].z_cord << "\n";
+        // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+2].y_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+2].z_cord << "\n";
+        // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+3].y_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+3].z_cord << "\n\n";
         break;
     case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP-straight_speed)];
-        // cout << "\n Поехали -1\n";
+        change_cords(0, -straight_speed);
+        print_sensor();
         break;
     case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
-        // cout << "\n Поехали 10\n";
+        change_cords(straight_speed, 0);
         break;
     case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
-        // cout << "\n Поехали -10\n";
+        change_cords(-straight_speed, 0);
+        break;
+    case -11:
+        change_cords(-straight_speed, straight_speed);
+        break;
+    case 101:
+        change_cords(-straight_speed, -straight_speed);
+        break;
+    case 1101:
+        change_cords(straight_speed, -straight_speed);
+        break;
+    case 11:
+        change_cords(straight_speed, straight_speed);
         break;
     default:
         break;
@@ -175,185 +299,262 @@ bool Rover::drive_forward_speed_1(){
     else return 1;
 }
 
-bool Rover::drive_north_east_speed_1(){
-    switch (direction)
-    {
-    case 1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+sideways_speed)][int(center_gravity_location.y_cord/NET_STEP+straight_speed)];
-        break;
-    case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-sideways_speed)][int(center_gravity_location.y_cord/NET_STEP-straight_speed)];
-        break;
-    case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+straight_speed)][int(center_gravity_location.y_cord/NET_STEP-sideways_speed)];
-        break;
-    case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-straight_speed)][int(center_gravity_location.y_cord/NET_STEP+sideways_speed)];
-        break;
-    default:
-        break;
-    }
-    if(check_condition() == 0){
-        BOOM();
-        return 0;
-    }
-    else return 1;
-}
+// bool Rover::drive_north_east_speed_1(){
+//     switch (direction)
+//     {
+//     case 1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+sideways_speed)][int(center_gravity_location.y_cord/NET_STEP+straight_speed)];
+//         break;
+//     case -1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-sideways_speed)][int(center_gravity_location.y_cord/NET_STEP-straight_speed)];
+//         break;
+//     case 10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+straight_speed)][int(center_gravity_location.y_cord/NET_STEP-sideways_speed)];
+//         break;
+//     case -10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-straight_speed)][int(center_gravity_location.y_cord/NET_STEP+sideways_speed)];
+//         break;
+//     default:
+//         break;
+//     }
+//     if(check_condition() == 0){
+//         BOOM();
+//         return 0;
+//     }
+//     else return 1;
+// }
 
-bool Rover::drive_north_west_speed_1(){
-    switch (direction)
-    {
-    case 1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-sideways_speed)][int(center_gravity_location.y_cord/NET_STEP+straight_speed)];
-        break;
-    case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+sideways_speed)][int(center_gravity_location.y_cord/NET_STEP-straight_speed)];
-        break;
-    case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+straight_speed)][int(center_gravity_location.y_cord/NET_STEP+sideways_speed)];
-        break;
-    case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-straight_speed)][int(center_gravity_location.y_cord/NET_STEP-sideways_speed)];
-        break;
-    default:
-        break;
-    }
-    if(check_condition() == 0){
-        BOOM();
-        return 0;        
-    }
-    else return 1;
-}
+// bool Rover::drive_north_west_speed_1(){
+//     switch (direction)
+//     {
+//     case 1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-sideways_speed)][int(center_gravity_location.y_cord/NET_STEP+straight_speed)];
+//         break;
+//     case -1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+sideways_speed)][int(center_gravity_location.y_cord/NET_STEP-straight_speed)];
+//         break;
+//     case 10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+straight_speed)][int(center_gravity_location.y_cord/NET_STEP+sideways_speed)];
+//         break;
+//     case -10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-straight_speed)][int(center_gravity_location.y_cord/NET_STEP-sideways_speed)];
+//         break;
+//     default:
+//         break;
+//     }
+//     if(check_condition() == 0){
+//         BOOM();
+//         return 0;        
+//     }
+//     else return 1;
+// }
 
 void Rover::BOOM(){
     cout << "\nBOOOOOOOM\n";
 }
 
-bool Rover::drive_forward_speed_2(){
-    switch (direction)
-    {
-    case 1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+2*straight_speed];
-        break;
-    case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP-2*straight_speed)];
-        break;
-    case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
-        break;
-    case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
-        break;
-    default:
-        break;
-    }
-    if(check_condition() == 0){
-        BOOM();
-        return 0;
-    }
-    else return 1;
-}
+// bool Rover::drive_forward_speed_2(){
+//     switch (direction)
+//     {
+//     case 1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+2*straight_speed];
+//         break;
+//     case -1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP-2*straight_speed)];
+//         break;
+//     case 10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
+//         break;
+//     case -10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
+//         break;
+//     default:
+//         break;
+//     }
+//     if(check_condition() == 0){
+//         BOOM();
+//         return 0;
+//     }
+//     else return 1;
+// }
 
-bool Rover::drive_NNE_speed_2(){ //north north east
-switch (direction)
-    {
-    case 1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-        break;
-    case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-        break;
-    case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - sideways_speed];
-        break;
-    case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + sideways_speed];
-        break;
-    default:
-        break;
-    }
-    if(check_condition() == 0){
-        BOOM();
-        return 0;
-    }
-    else return 1;
-}
+// bool Rover::drive_NNE_speed_2(){ //north north east
+// switch (direction)
+//     {
+//     case 1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
+//         break;
+//     case -1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
+//         break;
+//     case 10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - sideways_speed];
+//         break;
+//     case -10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + sideways_speed];
+//         break;
+//     default:
+//         break;
+//     }
+//     if(check_condition() == 0){
+//         BOOM();
+//         return 0;
+//     }
+//     else return 1;
+// }
 
-bool Rover::drive_NEE_speed_2(){
-    switch (direction)
-    {
-    case 1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-        break;
-    case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-        break;
-    case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - 2*sideways_speed];
-        break;
-    case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + 2*sideways_speed];
-        break;
-    default:
-        break;
-    }
-    if(check_condition() == 0){
-        BOOM();
-        return 0;
-    }
-    else return 1;
-}
+// bool Rover::drive_NEE_speed_2(){
+//     switch (direction)
+//     {
+//     case 1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
+//         break;
+//     case -1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
+//         break;
+//     case 10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - 2*sideways_speed];
+//         break;
+//     case -10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + 2*sideways_speed];
+//         break;
+//     default:
+//         break;
+//     }
+//     if(check_condition() == 0){
+//         BOOM();
+//         return 0;
+//     }
+//     else return 1;
+// }
 
-bool Rover::drive_NNW_speed_2(){ //north north east
-switch (direction)
-    {
-    case 1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-        break;
-    case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-        break;
-    case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + sideways_speed];
-        break;
-    case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - sideways_speed];
-        break;
-    default:
-        break;
-    }
-    if(check_condition() == 0){
-        BOOM();
-        return 0;
-    }
-    else return 1;
-}
+// bool Rover::drive_NNW_speed_2(){ //north north east
+// switch (direction)
+//     {
+//     case 1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
+//         break;
+//     case -1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
+//         break;
+//     case 10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + sideways_speed];
+//         break;
+//     case -10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - sideways_speed];
+//         break;
+//     default:
+//         break;
+//     }
+//     if(check_condition() == 0){
+//         BOOM();
+//         return 0;
+//     }
+//     else return 1;
+// }
 
-bool Rover::drive_NWW_speed_2(){
-    switch (direction)
-    {
-    case 1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-        break;
-    case -1:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-        break;
-    case 10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + 2*sideways_speed];
-        break;
-    case -10:
-        center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - 2*sideways_speed];
-        break;
-    default:
-        break;
-    }
-    if(check_condition() == 0){
-        BOOM();
-        return 0;
-    }
-    else return 1;
-}
+// bool Rover::drive_NWW_speed_2(){
+//     switch (direction)
+//     {
+//     case 1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
+//         break;
+//     case -1:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
+//         break;
+//     case 10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + 2*sideways_speed];
+//         break;
+//     case -10:
+//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - 2*sideways_speed];
+//         break;
+//     default:
+//         break;
+//     }
+//     if(check_condition() == 0){
+//         BOOM();
+//         return 0;
+//     }
+//     else return 1;
+// }
 
 Point Rover::get_location(){
     return center_gravity_location;
+}
+
+void Rover::change_cords(const int & dx, const int & dy){
+    center_gravity_location.y_cord += NET_STEP*dy;
+    center_gravity_location.x_cord += NET_STEP*dx;
+    center_gravity_location.z_cord = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord;
+}
+
+void Rover::fill_n_print_sensor(){
+    switch(direction){
+        case 1:
+            for (int i = -2; i <= 2; i++)
+            {
+                first_pixels_row_to_rover[i+2] = get_point_centerdxdy(i ,2);
+            }
+            for (int i = -3; i <= 3; i++)
+            {
+                second_pixels_row_to_rover[i+3] = get_point_centerdxdy(i ,3);
+            }
+            for (int i = -4; i <= 4; i++)
+            {
+                third_pixels_row_to_rover[i+4] = get_point_centerdxdy(i, 4);
+            }
+            break;
+        case -1:
+            for (int i = -2; i <= 2; i++)
+            {
+                first_pixels_row_to_rover[i+2] = get_point_centerdxdy(i ,-2);
+            }
+            for (int i = -3; i <= 3; i++)
+            {
+                second_pixels_row_to_rover[i+3] = get_point_centerdxdy(i ,-3);
+            }
+            for (int i = -4; i <= 4; i++)
+            {
+                third_pixels_row_to_rover[i+4] = get_point_centerdxdy(i, -4);
+            }
+            break;
+        case 10:
+            for (int i = -2; i <= 2; i++)
+            {
+                first_pixels_row_to_rover[i+2] = get_point_centerdxdy(2 ,i);
+            }
+            for (int i = -3; i <= 3; i++)
+            {
+                second_pixels_row_to_rover[i+3] = get_point_centerdxdy(3 ,i);
+            }
+            for (int i = -4; i <= 4; i++)
+            {
+                third_pixels_row_to_rover[i+4] = get_point_centerdxdy(4, i);
+            }
+            break;
+        case -10:
+            for (int i = -2; i <= 2; i++)
+            {
+                first_pixels_row_to_rover[i+2] = get_point_centerdxdy(-2, i);
+            }
+            for (int i = -3; i <= 3; i++)
+            {
+                second_pixels_row_to_rover[i+3] = get_point_centerdxdy(-3, i);
+            }
+            for (int i = -4; i <= 4; i++)
+            {
+                third_pixels_row_to_rover[i+4] = get_point_centerdxdy(-4, i);
+            }
+            break;
+        case 11:
+            first_pixels_row_to_rover[0] = get_point_centerdxdy();
+            break;
+        default:
+            break; 
+    }
+}
+
+Point Rover::get_point_centerdxdy(const int & dx, const int & dy){
+    cout << center_gravity_location.x_cord + NET_STEP*dx << " " << center_gravity_location.y_cord + NET_STEP*dy << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord << "\n";
+    return Point(center_gravity_location.x_cord + NET_STEP*dx, center_gravity_location.y_cord + NET_STEP*dy, rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord);
 }

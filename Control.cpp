@@ -91,10 +91,16 @@ void Control::print_message_in_log(string message)
 }
 
 
-void Control::rover_create(const int & dir, const int & length, const int & width, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const int & str_speed, const int & side_speed){
-    rover = new Rover(dir, length, width, rad, crit_slope_side, crit_slope_along, start_point_x, start_point_y, str_speed, side_speed, ptr_surface);
+// void Control::rover_create(const int & dir, const int & length, const int & width, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const int & str_speed, const int & side_speed){
+//     rover = new Rover(dir, length, width, rad, crit_slope_side, crit_slope_along, start_point_x, start_point_y, str_speed, side_speed, ptr_surface);
+//     rover_print_current_loc();
+// };
+
+void Control::rover_create(const int & dir, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y)
+{
+    rover = new Rover(dir, rad, crit_slope_side, crit_slope_along, start_point_x, start_point_y, ptr_surface);
     rover_print_current_loc();
-};
+}
 
 bool Control::rover_drive_forward_1(){
     
@@ -108,83 +114,83 @@ bool Control::rover_drive_forward_1(){
         return 0;
     }
 }
-bool Control::rover_drive_NW_1(){
-    if(rover->drive_north_west_speed_1()){
-        print_message_in_log("The rover successfully drove to the northwest at a speed of 1 ");
-        rover_print_current_loc();
-        return 1;
-    }
-    else{
-        print_message_in_log("The rover broke down ");
-        return 0;
-    }
-}
-bool Control::rover_drive_NE_1(){
-    if(rover->drive_north_east_speed_1()){
-        print_message_in_log("The rover successfully drove to the northeast at a speed of 1 ");
-        rover_print_current_loc();
-        return 1;
-    }
-    else{
-        print_message_in_log("The rover broke down ");
-        return 0;
-    }
-}
-bool Control::rover_drive_forward_2(){
-    if(rover->drive_forward_speed_2()){
-        print_message_in_log("The rover successfully drove forward at a speed of 2 ");
-        rover_print_current_loc();
-        return 1;
-    }
-    else{
-        print_message_in_log("The rover broke down ");
-        return 0;
-    }
-}
-bool Control::rover_drive_NNE_2(){
-    if(rover->drive_NNE_speed_2()){
-        print_message_in_log("The rover successfully drove to the north + northeast at a speed of 2 ");
-        rover_print_current_loc();
-        return 1;
-    }
-    else{
-        print_message_in_log("The rover broke down ");
-        return 0;
-    }
-}
-bool Control::rover_drive_NNW_2(){
-    if(rover->drive_NNW_speed_2()){
-        print_message_in_log("The rover successfully drove to the north + northwest at a speed of 2 ");
-        rover_print_current_loc();
-        return 1;
-    }
-    else{
-        print_message_in_log("The rover broke down ");
-        return 0;
-    }
-}
-bool Control::rover_drive_NWW_2(){
-    if(rover->drive_NWW_speed_2()){
-        print_message_in_log("The rover successfully drove to the northwest + west at a speed of 2 ");
-        rover_print_current_loc();
-        return 1;
-    }
-    else{
-        print_message_in_log("The rover broke down ");
-        return 0;
-    }
-}
-bool Control::rover_drive_NEE_2(){
-    if(rover->drive_NEE_speed_2()){
-        print_message_in_log("The rover successfully drove to the northeast + east at a speed of 2 ");
-        rover_print_current_loc();
-        return 1;
-    }
-    else{
-        print_message_in_log("The rover broke down ");
-        return 0;
-    }
-}
+// bool Control::rover_drive_NW_1(){
+//     if(rover->drive_north_west_speed_1()){
+//         print_message_in_log("The rover successfully drove to the northwest at a speed of 1 ");
+//         rover_print_current_loc();
+//         return 1;
+//     }
+//     else{
+//         print_message_in_log("The rover broke down ");
+//         return 0;
+//     }
+// }
+// bool Control::rover_drive_NE_1(){
+//     if(rover->drive_north_east_speed_1()){
+//         print_message_in_log("The rover successfully drove to the northeast at a speed of 1 ");
+//         rover_print_current_loc();
+//         return 1;
+//     }
+//     else{
+//         print_message_in_log("The rover broke down ");
+//         return 0;
+//     }
+// }
+// bool Control::rover_drive_forward_2(){
+//     if(rover->drive_forward_speed_2()){
+//         print_message_in_log("The rover successfully drove forward at a speed of 2 ");
+//         rover_print_current_loc();
+//         return 1;
+//     }
+//     else{
+//         print_message_in_log("The rover broke down ");
+//         return 0;
+//     }
+// }
+// bool Control::rover_drive_NNE_2(){
+//     if(rover->drive_NNE_speed_2()){
+//         print_message_in_log("The rover successfully drove to the north + northeast at a speed of 2 ");
+//         rover_print_current_loc();
+//         return 1;
+//     }
+//     else{
+//         print_message_in_log("The rover broke down ");
+//         return 0;
+//     }
+// }
+// bool Control::rover_drive_NNW_2(){
+//     if(rover->drive_NNW_speed_2()){
+//         print_message_in_log("The rover successfully drove to the north + northwest at a speed of 2 ");
+//         rover_print_current_loc();
+//         return 1;
+//     }
+//     else{
+//         print_message_in_log("The rover broke down ");
+//         return 0;
+//     }
+// }
+// bool Control::rover_drive_NWW_2(){
+//     if(rover->drive_NWW_speed_2()){
+//         print_message_in_log("The rover successfully drove to the northwest + west at a speed of 2 ");
+//         rover_print_current_loc();
+//         return 1;
+//     }
+//     else{
+//         print_message_in_log("The rover broke down ");
+//         return 0;
+//     }
+// }
+// bool Control::rover_drive_NEE_2(){
+//     if(rover->drive_NEE_speed_2()){
+//         print_message_in_log("The rover successfully drove to the northeast + east at a speed of 2 ");
+//         rover_print_current_loc();
+//         return 1;
+//     }
+//     else{
+//         print_message_in_log("The rover broke down ");
+//         return 0;
+//     }
+// }
 bool Control::rover_turn_90_clock(){
     if(rover->turn_90_clockwise()){
         print_message_in_log("The rover successfully turned 90 clockwise ");
@@ -199,6 +205,28 @@ bool Control::rover_turn_90_clock(){
 bool Control::rover_turn_90_counterclock(){
     if(rover->turn_90_counterclockwise()){
         print_message_in_log("The rover successfully turned 90 counterclockwise ");
+        rover_print_current_loc();
+        return 1;
+    }
+    else{
+        print_message_in_log("The rover broke down ");
+        return 0;
+    }
+}
+bool Control::rover_turn_45_counterclock(){
+    if(rover->turn_45_counterclockwise()){
+        print_message_in_log("The rover successfully turned 45 counterclockwise ");
+        rover_print_current_loc();
+        return 1;
+    }
+    else{
+        print_message_in_log("The rover broke down ");
+        return 0;
+    }
+}
+bool Control::rover_turn_45_clock(){
+    if(rover->turn_45_clockwise()){
+        print_message_in_log("The rover successfully turned 45 counterclockwise ");
         rover_print_current_loc();
         return 1;
     }
