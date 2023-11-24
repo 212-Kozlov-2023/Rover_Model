@@ -51,8 +51,14 @@ bool Rover::check_condition(){
         }
     }
     // cout << "Angel check: \n";
-    if(get_max_side_tilt() > critical_side_tilt) return 0;
-    if(get_max_along_tilt() > critical_along_tilt) return 0;
+    if(get_max_side_tilt() > critical_side_tilt) {
+        cout << "TILT SIDE";
+        return 0;
+    }
+    if(get_max_along_tilt() > critical_along_tilt) {
+        cout << "EUJK";
+        return 0;
+    }
     // cout << "\n Check height: \n";
     // cout << fabs(min_z - max_z);
     if(fabs(min_z-max_z) >= radius_of_wheels_in_pixels*NET_STEP) return 0;
@@ -60,15 +66,26 @@ bool Rover::check_condition(){
 }
 
 double Rover::get_max_side_tilt(){
-    double left_tilt, right_tilt;
     if(direction == 1 || direction == -1){ 
-        left_tilt = acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+1)][int(center_gravity_location.y_cord/NET_STEP)].z_cord)))));
-        right_tilt = acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-1)][int(center_gravity_location.y_cord/NET_STEP)].z_cord)))));
+        left_tilt = acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-get_point_centerdxdy(1, 0).z_cord)))));
+        right_tilt = acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-get_point_centerdxdy(-1, 0).z_cord)))));
     }
-    else{
-        left_tilt = acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP+1)].z_cord)))));
-        right_tilt = acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP-1)].z_cord)))));
+    else if(direction == 10 || direction == -10){
+        left_tilt = acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-get_point_centerdxdy(0, 1).z_cord)))));
+        right_tilt = acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-get_point_centerdxdy(0, -1).z_cord)))));
+        // cout << left_tilt << " " << right_tilt << "\n";
     }
+    else if(direction == 11 || direction == 101){
+        left_tilt = acos(fabs((2 * NET_STEP)/(sqrt(2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(1, -1).z_cord)) * sqrt(2))));
+        right_tilt = acos(fabs((-2 * NET_STEP)/(sqrt( 2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(-1, 1).z_cord)) * sqrt(2))));
+        // cout << left_tilt << " " << right_tilt << "\n";
+    }
+    else if(direction == -11 || direction == 1101){
+        left_tilt = acos(fabs((2 * NET_STEP)/(sqrt(2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(-1, -1).z_cord)) * sqrt(2))));
+        right_tilt = acos(fabs((-2 * NET_STEP)/(sqrt( 2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(1, 1).z_cord)) * sqrt(2))));
+        cout << left_tilt << " " << right_tilt << "\n";
+    }
+    // cout << left_tilt << " " << right_tilt << "\n";
     // cout << left_tilt << " " << right_tilt << " ";
     if(fabs(left_tilt) > fabs(right_tilt)) return fabs(left_tilt);
     else return fabs(right_tilt);
@@ -80,10 +97,21 @@ double Rover::get_max_along_tilt(){
         left_tilt = acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+1)][int(center_gravity_location.y_cord/NET_STEP)].z_cord)))));
         right_tilt = acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-1)][int(center_gravity_location.y_cord/NET_STEP)].z_cord)))));
     }
-    else{
+    else if(direction == 1 || direction == -1){
         left_tilt = acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP+1)].z_cord)))));
         right_tilt = acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord-rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP-1)].z_cord)))));
     }
+    else if(direction == -11 || direction == 1101){
+        left_tilt = acos(fabs((2 * NET_STEP)/(sqrt(2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(1, 1).z_cord)) * sqrt(2))));
+        right_tilt = acos(fabs((-2 * NET_STEP)/(sqrt( 2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(-1, -1).z_cord)) * sqrt(2))));
+        // cout << left_tilt << " " << right_tilt << "\n";
+    }
+    else if(direction == 11 || direction == 101){
+        left_tilt = acos(fabs((2 * NET_STEP)/(sqrt(2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(-1, -1).z_cord)) * sqrt(2))));
+        right_tilt = acos(fabs((-2 * NET_STEP)/(sqrt( 2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(1, 1).z_cord)) * sqrt(2))));
+        // cout << left_tilt << " " << right_tilt << "\n";
+    }
+    
     // cout << left_tilt << " " << right_tilt << " ";
     if(fabs(left_tilt) > fabs(right_tilt)) return fabs(left_tilt);
     else return fabs(right_tilt);
@@ -262,14 +290,12 @@ bool Rover::drive_forward_speed_1(){
     {
     case 1:
         change_cords(0, straight_speed);
-        print_sensor();
         // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+1].y_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+1].z_cord << "\n";
         // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+2].y_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+2].z_cord << "\n";
         // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+3].y_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+3].z_cord << "\n\n";
         break;
     case -1:
         change_cords(0, -straight_speed);
-        print_sensor();
         break;
     case 10:
         change_cords(straight_speed, 0);
@@ -533,28 +559,161 @@ void Rover::fill_n_print_sensor(){
             }
             break;
         case -10:
-            for (int i = -2; i <= 2; i++)
+            for(int i = -2; i <= 2; i++)
             {
                 first_pixels_row_to_rover[i+2] = get_point_centerdxdy(-2, i);
             }
-            for (int i = -3; i <= 3; i++)
+            for(int i = -3; i <= 3; i++)
             {
                 second_pixels_row_to_rover[i+3] = get_point_centerdxdy(-3, i);
             }
-            for (int i = -4; i <= 4; i++)
+            for(int i = -4; i <= 4; i++)
             {
                 third_pixels_row_to_rover[i+4] = get_point_centerdxdy(-4, i);
             }
             break;
         case 11:
-            first_pixels_row_to_rover[0] = get_point_centerdxdy();
+            for (int i = 0; i <=2; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, 2);
+            for (int i = 0; i <=3; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, 3);
+            for (int i = 0; i <=4; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, 4);
+            
+            for (int i = 3; i <=6; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(2, i - 4);
+            for (int i = 4; i <=8; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(3, i - 5);
+            for (int i = 5; i <=10; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(4, i - 6);
+            break;
+        case -11:
+            for (int i = 0; i <=2; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, 2);
+            for (int i = 0; i <=3; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 2, 3);
+            for (int i = 0; i <=4; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 3, 4);
+            
+            for (int i = 3; i <=6; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(-2, i - 4);
+            for (int i = 4; i <=8; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(-3, i - 5);
+            for (int i = 5; i <=10; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(-4, i - 6);
+            break;
+        case 101:
+            for (int i = 0; i <=2; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, -2);
+            for (int i = 0; i <=3; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 2, -3);
+            for (int i = 0; i <=4; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 3, -4);
+            
+            for (int i = 3; i <=6; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(-2, i - 5);
+            for (int i = 4; i <=8; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(-3, i - 7);
+            for (int i = 5; i <=10; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(-4, i - 9);
+            break;
+        case 1101:
+            for (int i = 0; i <=2; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, -2);
+            for (int i = 0; i <=3; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, -3);
+            for (int i = 0; i <=4; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(i - 1, -4);
+            
+            for (int i = 3; i <=6; i++) first_pixels_corner_to_rover[i] = get_point_centerdxdy(2, i - 5);
+            for (int i = 4; i <=8; i++) second_pixels_corner_to_rover[i] = get_point_centerdxdy(3, i - 7);
+            for (int i = 5; i <=10; i++) third_pixels_corner_to_rover[i] = get_point_centerdxdy(4, i - 9);
             break;
         default:
             break; 
     }
 }
 
+void Rover::Project_IRA(Point Final_Destination){
+    while(1){
+        if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
+            direction = 101;
+            while(center_gravity_location.y_cord > Final_Destination && center_gravity_location.x_cord > Final_Destination.x_cord){
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while(center_gravity_location.y_cord > Final_Destination.y_cord){
+                direction = -1;
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while (center_gravity_location.x_cord > Final_Destination.x_cord)
+            {
+                direction = -10;
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+        }
+        if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.y_cord < Final_Destination.x_cord){
+            direction = 1101;
+            while(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord < Final_Destination.x_cord){
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while(center_gravity_location.y_cord > Final_Destination.y_cord){
+                direction = -1;
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while (center_gravity_location.x_cord < Final_Destination.x_cord)
+            {
+                direction = 10;
+                drive_forward_speed_1();
+                //sensor_check();
+            } 
+        }
+        if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.y_cord == Final_Destination.x_cord){
+            while(center_gravity_location.y_cord > Final_Destination.y_cord){
+                direction = -1;
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+        }
+        if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.y_cord < Final_Destination.x_cord){
+            direction = 11;
+            while(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.x_cord < Final_Destination.x_cord){
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while(center_gravity_location.y_cord < Final_Destination.y_cord){
+                direction = 1;
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while (center_gravity_location.x_cord < Final_Destination.x_cord)
+            {
+                direction = 10;
+                drive_forward_speed_1();
+                //sensor_check();
+            } 
+        }
+        if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.y_cord > Final_Destination.x_cord){
+            direction = -11;
+            while(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while(center_gravity_location.y_cord < Final_Destination.y_cord){
+                direction = 1;
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+            while (center_gravity_location.x_cord > Final_Destination.x_cord)
+            {
+                direction = -10;
+                drive_forward_speed_1();
+                //sensor_check();
+            } 
+        }
+        if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.y_cord == Final_Destination.x_cord){
+            direction = 1;
+            while(center_gravity_location.y_cord < Final_Destination.y_cord){
+                drive_forward_speed_1();
+                //sensor_check();
+            }
+        }
+        if(Final_Destination.x_cord == center_gravity_location.x_cord && Final_Destination.y_cord == center_gravity_location.x_cord){
+            break;
+        }
+
+}
+
+void Rover::Project_MARINA(){
+    
+}
+
+
 Point Rover::get_point_centerdxdy(const int & dx, const int & dy){
-    cout << center_gravity_location.x_cord + NET_STEP*dx << " " << center_gravity_location.y_cord + NET_STEP*dy << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord << "\n";
+    // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+1][int(center_gravity_location.y_cord/NET_STEP)].z_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord << "\n";
+    // cout << center_gravity_location.x_cord + NET_STEP*dx << " " << center_gravity_location.y_cord + NET_STEP*dy << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord << "\n";
     return Point(center_gravity_location.x_cord + NET_STEP*dx, center_gravity_location.y_cord + NET_STEP*dy, rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord);
 }
