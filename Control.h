@@ -43,4 +43,7 @@ class Control{
     void rover_print_current_loc();
     void close_files();
     void print_message_in_log(string message);
+    void route(){
+        rover->Project_DIMA(Point(90, 90, 0));
+    }
 };

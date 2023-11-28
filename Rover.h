@@ -2,6 +2,7 @@
 #include "Surface.h"
 
 class Rover{
+    friend class Processor;
     int direction; // координаты единичного вектора записанные подряд Например: 10 - {1, 0} - направление вдоль оси ox
     int length_in_pixels = 3;
     int width_in_pixels = 3;
@@ -49,8 +50,10 @@ class Rover{
     Point get_location();
     void change_cords(const int & dx, const int & dy);
     void BOOM();
-    void Project_IRA(Point Final_Destination);
-    void Project_MARINA()
-    void fill_n_print_sensor();
+    bool sensor_check();
+    bool Project_IRA(Point Final_Destination);
+    void Project_MARINA();
+    bool Project_DIMA(Point Final_Destination);
+    void fill_sensor();
     Point get_point_centerdxdy(const int & dx, const int & dy);
 };

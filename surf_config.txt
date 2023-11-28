@@ -1,10 +1,9 @@
-Random hummocks = 0; 
-Random stones = 0;
-Random logs = 0;
+Random hummocks = 5; 
+Random stones = 5;
+Random logs = 2;
 Create surface A: length = 100, width = 100, unevenness_degree = 15;
-Create hummock(10, 34.67, 23.6, 1);
 Set cursor = (13, 10);
-Create stone(5);
+Create stone(1);
 Set cursor = (46, 27);
-Create log(45, 12, 25, 24, 10.1);
+Create log(80, 30, 30, 80, 10.1);
 Count surface; 

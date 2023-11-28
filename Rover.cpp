@@ -27,38 +27,29 @@ Rover::Rover(const int & dir, const int & rad, const double & crit_slope_side, c
 bool Rover::check_condition(){
     // cout << "\n " << center_gravity_location.x_cord << " " << center_gravity_location.y_cord << " " << center_gravity_location.z_cord; 
     if(center_gravity_location.x_cord - NET_STEP < 0 || center_gravity_location.y_cord - NET_STEP < 0 || center_gravity_location.x_cord + NET_STEP > rover_surface->length || center_gravity_location.y_cord + NET_STEP > rover_surface->width) return 0;
-    double max_z = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)].z_cord;
-    double min_z = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)].z_cord;
-    double z = 0;
-    if(direction == 1 || direction == -1){
-        for (int i = -length_in_pixels/2; i <= length_in_pixels/2; i++)
+
+    double max_z = center_gravity_location.z_cord, min_z = center_gravity_location.z_cord;
+    for (int i = -1; i <=1 ; i++)
+    {
+        for (int j = -1; j <= 1; j++)
         {
-            for (int j = -width_in_pixels/2; j <= width_in_pixels/2; j++){
-                z = rover_surface->pixels[int((center_gravity_location.x_cord+i*NET_STEP)/NET_STEP)][int((center_gravity_location.y_cord+j*NET_STEP)/NET_STEP)].z_cord;
-                if(z > max_z) max_z = z;
-                if(z < min_z) min_z = z;
+            if(get_point_centerdxdy(i, j).z_cord <= min_z){
+                min_z = get_point_centerdxdy(i, j).z_cord;
             }
-        }
-    }
-    else{
-        for (int i = -width_in_pixels/2; i <= width_in_pixels/2; i++)
-        {
-            for (int j = -length_in_pixels/2; j <= length_in_pixels/2; j++){
-                z = rover_surface->pixels[int((center_gravity_location.x_cord+i*NET_STEP)/NET_STEP)][int((center_gravity_location.y_cord+j*NET_STEP)/NET_STEP)].z_cord;
-                if(z > max_z) max_z = z;
-                if(z < min_z) min_z = z;
+            if(get_point_centerdxdy(i, j).z_cord >= max_z){
+                max_z = get_point_centerdxdy(i, j).z_cord;
             }
         }
     }
     // cout << "Angel check: \n";
-    if(get_max_side_tilt() > critical_side_tilt) {
-        cout << "TILT SIDE";
-        return 0;
-    }
-    if(get_max_along_tilt() > critical_along_tilt) {
-        cout << "EUJK";
-        return 0;
-    }
+    // if(get_max_side_tilt() > critical_side_tilt) {
+    //     // cout << "TILT SIDE";
+    //     return 0;
+    // }
+    // if(get_max_along_tilt() > critical_along_tilt) {
+    //     // cout << "EUJK";
+    //     return 0;
+    // }
     // cout << "\n Check height: \n";
     // cout << fabs(min_z - max_z);
     if(fabs(min_z-max_z) >= radius_of_wheels_in_pixels*NET_STEP) return 0;
@@ -83,7 +74,7 @@ double Rover::get_max_side_tilt(){
     else if(direction == -11 || direction == 1101){
         left_tilt = acos(fabs((2 * NET_STEP)/(sqrt(2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(-1, -1).z_cord)) * sqrt(2))));
         right_tilt = acos(fabs((-2 * NET_STEP)/(sqrt( 2 * get_sqr(NET_STEP) + get_sqr(center_gravity_location.z_cord - get_point_centerdxdy(1, 1).z_cord)) * sqrt(2))));
-        cout << left_tilt << " " << right_tilt << "\n";
+        // cout << left_tilt << " " << right_tilt << "\n";
     }
     // cout << left_tilt << " " << right_tilt << "\n";
     // cout << left_tilt << " " << right_tilt << " ";
@@ -318,6 +309,7 @@ bool Rover::drive_forward_speed_1(){
     default:
         break;
     }
+    cout << center_gravity_location.x_cord << " " << center_gravity_location.y_cord << " " << center_gravity_location.z_cord << "\n";//" левый наклон -  " << left_tilt << " правый наклон - " << right_tilt << " наклон вперед - " << tilt_along << "\n";
     if(check_condition() == 0){
         BOOM();
         return 0;
@@ -325,184 +317,9 @@ bool Rover::drive_forward_speed_1(){
     else return 1;
 }
 
-// bool Rover::drive_north_east_speed_1(){
-//     switch (direction)
-//     {
-//     case 1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+sideways_speed)][int(center_gravity_location.y_cord/NET_STEP+straight_speed)];
-//         break;
-//     case -1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-sideways_speed)][int(center_gravity_location.y_cord/NET_STEP-straight_speed)];
-//         break;
-//     case 10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+straight_speed)][int(center_gravity_location.y_cord/NET_STEP-sideways_speed)];
-//         break;
-//     case -10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-straight_speed)][int(center_gravity_location.y_cord/NET_STEP+sideways_speed)];
-//         break;
-//     default:
-//         break;
-//     }
-//     if(check_condition() == 0){
-//         BOOM();
-//         return 0;
-//     }
-//     else return 1;
-// }
-
-// bool Rover::drive_north_west_speed_1(){
-//     switch (direction)
-//     {
-//     case 1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-sideways_speed)][int(center_gravity_location.y_cord/NET_STEP+straight_speed)];
-//         break;
-//     case -1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+sideways_speed)][int(center_gravity_location.y_cord/NET_STEP-straight_speed)];
-//         break;
-//     case 10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+straight_speed)][int(center_gravity_location.y_cord/NET_STEP+sideways_speed)];
-//         break;
-//     case -10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-straight_speed)][int(center_gravity_location.y_cord/NET_STEP-sideways_speed)];
-//         break;
-//     default:
-//         break;
-//     }
-//     if(check_condition() == 0){
-//         BOOM();
-//         return 0;        
-//     }
-//     else return 1;
-// }
-
 void Rover::BOOM(){
     cout << "\nBOOOOOOOM\n";
 }
-
-// bool Rover::drive_forward_speed_2(){
-//     switch (direction)
-//     {
-//     case 1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP)+2*straight_speed];
-//         break;
-//     case -1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)][int(center_gravity_location.y_cord/NET_STEP-2*straight_speed)];
-//         break;
-//     case 10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP+2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
-//         break;
-//     case -10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP-2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP)];
-//         break;
-//     default:
-//         break;
-//     }
-//     if(check_condition() == 0){
-//         BOOM();
-//         return 0;
-//     }
-//     else return 1;
-// }
-
-// bool Rover::drive_NNE_speed_2(){ //north north east
-// switch (direction)
-//     {
-//     case 1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-//         break;
-//     case -1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-//         break;
-//     case 10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - sideways_speed];
-//         break;
-//     case -10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + sideways_speed];
-//         break;
-//     default:
-//         break;
-//     }
-//     if(check_condition() == 0){
-//         BOOM();
-//         return 0;
-//     }
-//     else return 1;
-// }
-
-// bool Rover::drive_NEE_speed_2(){
-//     switch (direction)
-//     {
-//     case 1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-//         break;
-//     case -1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-//         break;
-//     case 10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - 2*sideways_speed];
-//         break;
-//     case -10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + 2*sideways_speed];
-//         break;
-//     default:
-//         break;
-//     }
-//     if(check_condition() == 0){
-//         BOOM();
-//         return 0;
-//     }
-//     else return 1;
-// }
-
-// bool Rover::drive_NNW_speed_2(){ //north north east
-// switch (direction)
-//     {
-//     case 1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-//         break;
-//     case -1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-//         break;
-//     case 10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + sideways_speed];
-//         break;
-//     case -10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - sideways_speed];
-//         break;
-//     default:
-//         break;
-//     }
-//     if(check_condition() == 0){
-//         BOOM();
-//         return 0;
-//     }
-//     else return 1;
-// }
-
-// bool Rover::drive_NWW_speed_2(){
-//     switch (direction)
-//     {
-//     case 1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) - 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) + 2*straight_speed];
-//         break;
-//     case -1:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP) + 2*sideways_speed][int(center_gravity_location.y_cord/NET_STEP) - 2*straight_speed];
-//         break;
-//     case 10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP + 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) + 2*sideways_speed];
-//         break;
-//     case -10:
-//         center_gravity_location = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP - 2*straight_speed)][int(center_gravity_location.y_cord/NET_STEP) - 2*sideways_speed];
-//         break;
-//     default:
-//         break;
-//     }
-//     if(check_condition() == 0){
-//         BOOM();
-//         return 0;
-//     }
-//     else return 1;
-// }
 
 Point Rover::get_location(){
     return center_gravity_location;
@@ -514,7 +331,7 @@ void Rover::change_cords(const int & dx, const int & dy){
     center_gravity_location.z_cord = rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord;
 }
 
-void Rover::fill_n_print_sensor(){
+void Rover::fill_sensor(){
     switch(direction){
         case 1:
             for (int i = -2; i <= 2; i++)
@@ -613,104 +430,287 @@ void Rover::fill_n_print_sensor(){
     }
 }
 
-void Rover::Project_IRA(Point Final_Destination){
-    while(1){
+bool Rover::Project_IRA(Point Final_Destination){
         if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
             direction = 101;
-            while(center_gravity_location.y_cord > Final_Destination && center_gravity_location.x_cord > Final_Destination.x_cord){
-                drive_forward_speed_1();
-                //sensor_check();
+            if(sensor_check() == false) return false;
+            while(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
             while(center_gravity_location.y_cord > Final_Destination.y_cord){
                 direction = -1;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
             while (center_gravity_location.x_cord > Final_Destination.x_cord)
             {
                 direction = -10;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
         }
-        if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.y_cord < Final_Destination.x_cord){
+        else if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord < Final_Destination.x_cord){
+            // cout << "B\n";
             direction = 1101;
+            if(sensor_check() == false) return false;
             while(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord < Final_Destination.x_cord){
-                drive_forward_speed_1();
-                //sensor_check();
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
             while(center_gravity_location.y_cord > Final_Destination.y_cord){
                 direction = -1;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
             while (center_gravity_location.x_cord < Final_Destination.x_cord)
             {
                 direction = 10;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             } 
         }
-        if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.y_cord == Final_Destination.x_cord){
+        else if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord == Final_Destination.x_cord){
+            // cout << "C\n";
             while(center_gravity_location.y_cord > Final_Destination.y_cord){
                 direction = -1;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
         }
-        if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.y_cord < Final_Destination.x_cord){
+        else if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.x_cord < Final_Destination.x_cord){
+            // cout << "D\n";
             direction = 11;
+            if(sensor_check() == false) return false;
             while(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.x_cord < Final_Destination.x_cord){
-                drive_forward_speed_1();
-                //sensor_check();
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
             while(center_gravity_location.y_cord < Final_Destination.y_cord){
                 direction = 1;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
             while (center_gravity_location.x_cord < Final_Destination.x_cord)
             {
                 direction = 10;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             } 
         }
-        if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.y_cord > Final_Destination.x_cord){
+        else if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
+            // cout << "E\n";
             direction = -11;
+            if(sensor_check() == false) return false;
             while(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
-                drive_forward_speed_1();
-                //sensor_check();
+                // cout << "D\n";
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
             while(center_gravity_location.y_cord < Final_Destination.y_cord){
+                // cout << "5\n";
                 direction = 1;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                // cout << Final_Destination.x_cord << " " << Final_Destination.y_cord << "\n";
+                // if(center_gravity_location.x_cord == Final_Destination.x_cord && center_gravity_location.y_cord == Final_Destination.y_cord) return true;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                // if(center_gravity_location.x_cord == Final_Destination.x_cord && center_gravity_location.y_cord == Final_Destination.y_cord) return true;
+                if(sensor_check() == false) return false;
             }
             while (center_gravity_location.x_cord > Final_Destination.x_cord)
             {
+                // cout << "1\n";
                 direction = -10;
-                drive_forward_speed_1();
-                //sensor_check();
+                if(sensor_check() == false) return false;
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             } 
         }
-        if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.y_cord == Final_Destination.x_cord){
+        else if(center_gravity_location.y_cord < Final_Destination.y_cord && center_gravity_location.x_cord == Final_Destination.x_cord){
+            // cout << "F\n";
             direction = 1;
+            if(sensor_check() == false) return false;
             while(center_gravity_location.y_cord < Final_Destination.y_cord){
-                drive_forward_speed_1();
-                //sensor_check();
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
             }
         }
-        if(Final_Destination.x_cord == center_gravity_location.x_cord && Final_Destination.y_cord == center_gravity_location.x_cord){
-            break;
+        else if(center_gravity_location.y_cord == Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
+            // cout << "G\n";
+            direction = -10;
+            if(sensor_check() == false) return false;
+            while(center_gravity_location.x_cord > Final_Destination.x_cord){
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
+            }
         }
+        else if(center_gravity_location.y_cord == Final_Destination.y_cord && center_gravity_location.x_cord < Final_Destination.x_cord){
+            // cout << "K\n";
+            direction = 10;
+            if(sensor_check() == false) return false;
+            while(center_gravity_location.x_cord < Final_Destination.x_cord){
+                if(drive_forward_speed_1() == 0){
+                    return 1;
+                }
+                if(sensor_check() == false) return false;
+            }
+        }
+        else if(Final_Destination.x_cord == center_gravity_location.x_cord && Final_Destination.y_cord == center_gravity_location.y_cord){
+            // cout << "D\n";
+            return 1;
+        }
+        else {cout << "Все сломалось!" << " " "\n";
+        }
+        
+        return 1;
+}
 
+bool Rover::sensor_check(){
+    fill_sensor();
+    double max_z = center_gravity_location.z_cord, min_z = center_gravity_location.z_cord;
+    for (int i = -1; i <=1 ; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
+            if(get_point_centerdxdy(i, j).z_cord <= min_z){
+                min_z = get_point_centerdxdy(i, j).z_cord;
+            }
+            if(get_point_centerdxdy(i, j).z_cord >= max_z){
+                max_z = get_point_centerdxdy(i, j).z_cord;
+            }
+        }
+        
+    }
+    if(direction == 1 || direction == -1 || direction == 10 || direction == -10){
+        for (size_t i = 0; i < 5; i++)
+        {
+            if(min_z + radius_of_wheels_in_pixels*NET_STEP < first_pixels_row_to_rover[i].z_cord) return 0;
+            if(max_z - radius_of_wheels_in_pixels*NET_STEP > first_pixels_row_to_rover[i].z_cord) return 0;
+        }
+        for (size_t i = 0; i < 7; i++)
+        {
+            if(min_z + radius_of_wheels_in_pixels*NET_STEP < second_pixels_row_to_rover[i].z_cord) return 0;
+            if(max_z - radius_of_wheels_in_pixels*NET_STEP > second_pixels_row_to_rover[i].z_cord) return 0;
+        }
+        for (size_t i = 0; i < 9; i++)
+        {
+            if(min_z + radius_of_wheels_in_pixels*NET_STEP < third_pixels_row_to_rover[i].z_cord) return 0;
+            if(max_z - radius_of_wheels_in_pixels*NET_STEP > third_pixels_row_to_rover[i].z_cord) return 0;
+        }
+    }
+    else{
+        for (size_t i = 0; i < 8; i++)
+        {
+            if(min_z + radius_of_wheels_in_pixels*NET_STEP < first_pixels_corner_to_rover[i].z_cord) return 0;
+            if(max_z - radius_of_wheels_in_pixels*NET_STEP > first_pixels_corner_to_rover[i].z_cord) return 0;
+        }
+        for (size_t i = 0; i < 10; i++)
+        {
+            if(min_z + radius_of_wheels_in_pixels*NET_STEP < second_pixels_corner_to_rover[i].z_cord) return 0;
+            if(max_z - radius_of_wheels_in_pixels*NET_STEP > second_pixels_corner_to_rover[i].z_cord) return 0;
+        }
+        for (size_t i = 0; i < 12; i++)
+        {
+            if(min_z + radius_of_wheels_in_pixels*NET_STEP < third_pixels_corner_to_rover[i].z_cord) return 0;
+            if(max_z - radius_of_wheels_in_pixels*NET_STEP > third_pixels_corner_to_rover[i].z_cord) return 0;
+        }
+    }
+    return true;
 }
 
 void Rover::Project_MARINA(){
-    
+    // cout << "MARINA\n";
+    int i = 0;
+    // cout << "A " << direction << "\n";
+    while(sensor_check() == 0){
+        i++;
+        turn_45_clockwise();
+        // turn_45_counterclockwise();
+    }
+    // cout << i << "\n";
+    // cout << "B " << direction << "\n";
+    drive_forward_speed_1();
+    drive_forward_speed_1();
+    drive_forward_speed_1();
+
+    for (int j = 0; j < i % 8; j++)
+    {
+        turn_45_counterclockwise();
+        // turn_45_clockwise();
+    }
+    // cout << "C " << direction << "\n";
+    if(sensor_check() == 0){
+        while (sensor_check() == 0)
+        {
+            // cout << "D " << direction << "\n";
+            for (int j = 0; j < i % 8; j++)
+            {
+                turn_45_clockwise();
+                // turn_45_counterclockwise();
+            } 
+            if(sensor_check() == 0) return;
+            // cout << "E " << direction << "\n"; 
+            drive_forward_speed_1();
+            drive_forward_speed_1();
+            drive_forward_speed_1();
+            for (int j = 0; j < i % 8; j++)
+            {
+                turn_45_counterclockwise();
+                // turn_45_clockwise();
+            } 
+        }
+        // cout << "OBOSHOL" << "\n";
+        drive_forward_speed_1();
+        drive_forward_speed_1();
+        drive_forward_speed_1();
+    }
 }
 
+bool Rover::Project_DIMA(Point Final_Destination){
+    if(center_gravity_location.x_cord == Final_Destination.x_cord && center_gravity_location.y_cord == Final_Destination.y_cord) return true;
+    while(Project_IRA(Final_Destination) == false){
+        Project_MARINA();
+        if(center_gravity_location.x_cord == Final_Destination.x_cord && center_gravity_location.y_cord == Final_Destination.y_cord) return true;
+    }
+    return true;
+}
 
 Point Rover::get_point_centerdxdy(const int & dx, const int & dy){
     // cout << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+1][int(center_gravity_location.y_cord/NET_STEP)].z_cord << " " << rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord << "\n";

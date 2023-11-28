@@ -278,6 +278,7 @@ bool Boundary::read_rover_config(){
                 // cout << temp1 << temp2 << temp3 << temp4 << temp5 << temp6 << temp7 << temp8 << temp9 << temp10;
                 print_message_in_log("Command to create rover has been read! ");
                 controller->rover_create(temp1, temp2, temp5, temp6, temp7, temp8);
+                controller->route();
                 is_rover = true;
             }
             else{
