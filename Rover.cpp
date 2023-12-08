@@ -619,38 +619,46 @@ bool Rover::sensor_check(){
         
     }
     if(direction == 1 || direction == -1 || direction == 10 || direction == -10){
-        for (size_t i = 0; i < 5; i++)
+        for (size_t i = 0; i < 4; i++)
         {
             if(min_z + radius_of_wheels_in_pixels*NET_STEP < first_pixels_row_to_rover[i].z_cord) return 0;
             if(max_z - radius_of_wheels_in_pixels*NET_STEP > first_pixels_row_to_rover[i].z_cord) return 0;
         }
-        for (size_t i = 0; i < 7; i++)
+        for (size_t i = 0; i < 6; i++)
         {
             if(min_z + radius_of_wheels_in_pixels*NET_STEP < second_pixels_row_to_rover[i].z_cord) return 0;
             if(max_z - radius_of_wheels_in_pixels*NET_STEP > second_pixels_row_to_rover[i].z_cord) return 0;
         }
-        for (size_t i = 0; i < 9; i++)
+        for (size_t i = 0; i < 8; i++)
         {
             if(min_z + radius_of_wheels_in_pixels*NET_STEP < third_pixels_row_to_rover[i].z_cord) return 0;
             if(max_z - radius_of_wheels_in_pixels*NET_STEP > third_pixels_row_to_rover[i].z_cord) return 0;
         }
-    }
+        if(acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(third_pixels_row_to_rover[4].z_cord - second_pixels_row_to_rover[3].z_cord))))) > critical_along_tilt) return 0;
+        if(acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(first_pixels_row_to_rover[2].z_cord - second_pixels_row_to_rover[3].z_cord))))) > critical_along_tilt) return 0;
+        if(acos(fabs((-1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(second_pixels_row_to_rover[2].z_cord - second_pixels_row_to_rover[3].z_cord))))) > critical_side_tilt) return 0;
+        if(acos(fabs((1*NET_STEP)/(1*sqrt(get_sqr(NET_STEP) + get_sqr(second_pixels_row_to_rover[4].z_cord - second_pixels_row_to_rover[3].z_cord))))) > critical_side_tilt) return 0;
+    }   
     else{
-        for (size_t i = 0; i < 8; i++)
+        for (size_t i = 0; i < 6; i++)
         {
             if(min_z + radius_of_wheels_in_pixels*NET_STEP < first_pixels_corner_to_rover[i].z_cord) return 0;
             if(max_z - radius_of_wheels_in_pixels*NET_STEP > first_pixels_corner_to_rover[i].z_cord) return 0;
         }
-        for (size_t i = 0; i < 10; i++)
+        for (size_t i = 0; i < 8; i++)
         {
             if(min_z + radius_of_wheels_in_pixels*NET_STEP < second_pixels_corner_to_rover[i].z_cord) return 0;
             if(max_z - radius_of_wheels_in_pixels*NET_STEP > second_pixels_corner_to_rover[i].z_cord) return 0;
         }
-        for (size_t i = 0; i < 12; i++)
+        for (size_t i = 0; i < 10; i++)
         {
             if(min_z + radius_of_wheels_in_pixels*NET_STEP < third_pixels_corner_to_rover[i].z_cord) return 0;
             if(max_z - radius_of_wheels_in_pixels*NET_STEP > third_pixels_corner_to_rover[i].z_cord) return 0;
         }
+        if(acos(fabs((2 * NET_STEP)/(sqrt(2 * get_sqr(NET_STEP) + get_sqr(second_pixels_corner_to_rover[3].z_cord - third_pixels_corner_to_rover[4].z_cord)) * sqrt(2)))) > critical_along_tilt) return 0;
+        if(acos(fabs((-2 * NET_STEP)/(sqrt( 2 * get_sqr(NET_STEP) + get_sqr(second_pixels_corner_to_rover[3].z_cord - first_pixels_corner_to_rover[2].z_cord)) * sqrt(2)))) > critical_along_tilt) return 0;
+        if(acos(fabs((2 * NET_STEP)/(sqrt(2 * get_sqr(NET_STEP) + get_sqr(second_pixels_corner_to_rover[3].z_cord - third_pixels_corner_to_rover[6].z_cord)) * sqrt(2)))) > critical_along_tilt) return 0;
+        if(acos(fabs((-2 * NET_STEP)/(sqrt( 2 * get_sqr(NET_STEP) + get_sqr(second_pixels_corner_to_rover[3].z_cord - third_pixels_corner_to_rover[2].z_cord)) * sqrt(2)))) > critical_along_tilt) return 0;
     }
     return true;
 }
@@ -661,8 +669,8 @@ void Rover::Project_MARINA(){
     // cout << "A " << direction << "\n";
     while(sensor_check() == 0){
         i++;
-        turn_45_clockwise();
-        // turn_45_counterclockwise();
+        if(type_of_crawl == 1) turn_45_clockwise();
+        else turn_45_counterclockwise();
     }
     // cout << i << "\n";
     // cout << "B " << direction << "\n";
@@ -672,8 +680,8 @@ void Rover::Project_MARINA(){
 
     for (int j = 0; j < i % 8; j++)
     {
-        turn_45_counterclockwise();
-        // turn_45_clockwise();
+        if(type_of_crawl == 1) turn_45_counterclockwise();
+        else turn_45_clockwise();
     }
     // cout << "C " << direction << "\n";
     if(sensor_check() == 0){
@@ -682,8 +690,8 @@ void Rover::Project_MARINA(){
             // cout << "D " << direction << "\n";
             for (int j = 0; j < i % 8; j++)
             {
-                turn_45_clockwise();
-                // turn_45_counterclockwise();
+                if(type_of_crawl == 1) turn_45_clockwise();
+                else turn_45_counterclockwise();
             } 
             if(sensor_check() == 0) return;
             // cout << "E " << direction << "\n"; 
@@ -692,8 +700,8 @@ void Rover::Project_MARINA(){
             drive_forward_speed_1();
             for (int j = 0; j < i % 8; j++)
             {
-                turn_45_counterclockwise();
-                // turn_45_clockwise();
+                if(type_of_crawl == 1) turn_45_counterclockwise();
+                else turn_45_clockwise();
             } 
         }
         // cout << "OBOSHOL" << "\n";

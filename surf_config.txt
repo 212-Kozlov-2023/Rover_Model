@@ -1,6 +1,6 @@
-Random hummocks = 5; 
-Random stones = 5;
-Random logs = 2;
+Random hummocks = 15; 
+Random stones = 0;
+Random logs = 0;
 Create surface A: length = 100, width = 100, unevenness_degree = 15;
 Set cursor = (13, 10);
 Create stone(1);
