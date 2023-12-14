@@ -1,6 +1,5 @@
 #include "Rover.h"
 
-// Rover::Rover(const int & dir, const int & length, const int & width, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const int & str_speed, const int & side_speed, const Surface * surf){
 Rover::Rover(const int & dir, const int & rad, const double & crit_slope_side, const double & crit_slope_along, const double & start_point_x, const double & start_point_y, const Surface * surf){
     radius_of_wheels_in_pixels = rad;
     critical_along_tilt = crit_slope_along;

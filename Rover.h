@@ -3,9 +3,7 @@
 
 class Rover{
     friend class Processor;
-    int direction; // координаты единичного вектора записанные подряд Например: 10 - {1, 0} - направление вдоль оси ox
-    int length_in_pixels = 3;
-    int width_in_pixels = 3;
+    int direction;
     int radius_of_wheels_in_pixels;
     int straight_speed = 1;
     int type_of_crawl = 1;
@@ -38,14 +36,6 @@ class Rover{
     void turn_180();
 
     bool drive_forward_speed_1();
-    // bool drive_north_east_speed_1();
-    // bool drive_north_west_speed_1();
-
-    // bool drive_forward_speed_2();
-    // bool drive_NNE_speed_2();//north north east
-    // bool drive_NEE_speed_2();
-    // bool drive_NNW_speed_2();
-    // bool drive_NWW_speed_2();
 
     Point get_location();
     void change_cords(const int & dx, const int & dy);
