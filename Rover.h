@@ -9,7 +9,6 @@ class Rover{
     int radius_of_wheels_in_pixels;
     int straight_speed = 1;
     int type_of_crawl = 1;
-    // int sideways_speed = 2;
     Point center_gravity_location;
     const Surface *rover_surface;
     double left_tilt, right_tilt;
