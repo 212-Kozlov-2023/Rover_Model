@@ -256,3 +256,14 @@ void Control::surface_delete(){
     delete ptr_surface;
     free(ptr_surface);
 };
+void Control::print_path(){
+    int size;
+    Point * p;
+    p = rover->return_path(size);
+    for (int i = 0; i < size; i++)
+    {
+        rover_gnu_file << p->x_cord << " " << p->y_cord << " " << p->z_cord << "\n";
+        p++;
+    }
+    
+}

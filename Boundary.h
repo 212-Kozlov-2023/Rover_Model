@@ -20,9 +20,9 @@ class Boundary{
         ifstream config_file;
 
     public:
-        Boundary(const string & config_filename);
+        Boundary(const string & config_filename, const double & x, const double & y, int & checker);
         bool read_config(const string & conf_name);
-        bool read_rover_config();
+        bool read_rover_config(const double & x, const double & y);
         bool read_surface_config();
         void print_message_in_log(const string & message);
         bool fill_filename(const string & line, string & filename);

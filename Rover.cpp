@@ -7,7 +7,6 @@ Rover::Rover(const int & dir, const int & rad, const double & crit_slope_side, c
     rover_surface = surf;
     center_gravity_location = Point(start_point_x, start_point_y, rover_surface->pixels[int(start_point_x/NET_STEP)][int(start_point_y/NET_STEP)].z_cord);
     direction = dir;
-    
     if(dir != 10 && dir != 1 && dir != -10 && dir != -1 && dir != 1101 && dir != -11 && dir != 101 && dir != 11){ 
         cout << "Incorrect direction value \n";
         exit(-1);
@@ -35,12 +34,13 @@ bool Rover::check_condition(){
         }
     }
     // cout << "Angel check: \n";
-    if(get_max_side_tilt() > critical_side_tilt) {
-        return 0;
-    }
-    if(get_max_along_tilt() > critical_along_tilt) {
-        return 0;
-    }
+    // if(get_max_side_tilt() > critical_side_tilt) {
+    //     return 0;
+    // }
+    // if(get_max_along_tilt() > critical_along_tilt) {
+    //     return 0;
+    // }
+    if(path.size() >= 5*rover_surface->length/NET_STEP) return 0;
     if(fabs(min_z-max_z) >= radius_of_wheels_in_pixels*NET_STEP) return 0;
     return 1;
 }
@@ -298,7 +298,8 @@ bool Rover::drive_forward_speed_1(){
     default:
         break;
     }
-    cout << center_gravity_location.x_cord << " " << center_gravity_location.y_cord << " " << center_gravity_location.z_cord << "\n";//" левый наклон -  " << left_tilt << " правый наклон - " << right_tilt << " наклон вперед - " << tilt_along << "\n";
+    path.push_back(center_gravity_location);
+    // cout << center_gravity_location.x_cord << " " << center_gravity_location.y_cord << " " << center_gravity_location.z_cord << "\n";//" левый наклон -  " << left_tilt << " правый наклон - " << right_tilt << " наклон вперед - " << tilt_along << "\n";
     if(check_condition() == 0){
         BOOM();
         return 0;
@@ -307,7 +308,7 @@ bool Rover::drive_forward_speed_1(){
 }
 
 void Rover::BOOM(){
-    cout << "\nBOOOOOOOM\n";
+    // cout << "\nBOOOOOOOM\n";
 }
 
 Point Rover::get_location(){
@@ -419,7 +420,7 @@ void Rover::fill_sensor(){
     }
 }
 
-bool Rover::Project_IRA(Point Final_Destination){
+bool Rover::rover_main_direct(Point Final_Destination){
         if(center_gravity_location.y_cord > Final_Destination.y_cord && center_gravity_location.x_cord > Final_Destination.x_cord){
             direction = 101;
             if(sensor_check() == false) return false;
@@ -638,7 +639,7 @@ bool Rover::sensor_check(){
     return true;
 }
 
-void Rover::Project_MARINA(){
+void Rover::rover_bypass(){
     int i = 0;
     while(sensor_check() == 0){
         i++;
@@ -678,10 +679,11 @@ void Rover::Project_MARINA(){
     }
 }
 
-bool Rover::Project_DIMA(Point Final_Destination){
+bool Rover::rover_drive_to_point(Point Final_Destination){
     if(center_gravity_location.x_cord == Final_Destination.x_cord && center_gravity_location.y_cord == Final_Destination.y_cord) return true;
-    while(Project_IRA(Final_Destination) == false){
-        Project_MARINA();
+    while(rover_main_direct(Final_Destination) == false){
+        if(path.size() >= 5*rover_surface->length/NET_STEP) return 0;
+        rover_bypass();
         if(center_gravity_location.x_cord == Final_Destination.x_cord && center_gravity_location.y_cord == Final_Destination.y_cord) return true;
     }
     return true;
@@ -689,4 +691,9 @@ bool Rover::Project_DIMA(Point Final_Destination){
 
 Point Rover::get_point_centerdxdy(const int & dx, const int & dy){
     return Point(center_gravity_location.x_cord + NET_STEP*dx, center_gravity_location.y_cord + NET_STEP*dy, rover_surface->pixels[int(center_gravity_location.x_cord/NET_STEP)+dx][int(center_gravity_location.y_cord/NET_STEP)+dy].z_cord);
+}
+
+Point * Rover::return_path(int & path_size){
+    path_size = path.size();
+    return &path[0];
 }

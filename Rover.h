@@ -3,6 +3,7 @@
 
 class Rover{
     friend class Processor;
+    vector<Point> path;
     int direction;
     int radius_of_wheels_in_pixels;
     int straight_speed = 1;
@@ -41,9 +42,10 @@ class Rover{
     void change_cords(const int & dx, const int & dy);
     void BOOM();
     bool sensor_check();
-    bool Project_IRA(Point Final_Destination);
-    void Project_MARINA();
-    bool Project_DIMA(Point Final_Destination);
+    bool rover_main_direct(Point Final_Destination);
+    void rover_bypass();
+    bool rover_drive_to_point(Point Final_Destination);
     void fill_sensor();
     Point get_point_centerdxdy(const int & dx, const int & dy);
+    Point * return_path(int & path_size);
 };

@@ -1,6 +1,6 @@
 #include "Boundary.h"
 
-Boundary::Boundary(const string & config_filename){
+Boundary::Boundary(const string & config_filename, const double & x, const double & y, int & checker){
     if(read_config(config_filename) == 0){
         cout << "\nIncorrect config\n";
     }
@@ -8,7 +8,7 @@ Boundary::Boundary(const string & config_filename){
     boundary_log_file.open(boundary_log_filename);
     controller = new Control(is_date, controller_log_filename, gnu_surf_filename, gnu_rover_filename, gnu_load_filename);
     read_surface_config();
-    read_rover_config();
+    checker = read_rover_config(x, y);
     controller->close_files();
     // delete controller;
     // controller->surface_delete();
@@ -72,7 +72,6 @@ bool Boundary::read_surface_config(){
     bool is_surface = false;
     int is_rand = 0;
     while(getline(surface_command_file, buffer)){
-        // cout << buffer << "\n";
         if(is_substr(buffer, "Random hummocks")){
             double rand_humm_number;
             if(sscanf(buffer.c_str(), "%*[^=]=%lf;", &rand_humm_number) == 1 && !is_extra_symbol_after_semicolon(buffer)){
@@ -257,7 +256,7 @@ bool Boundary::fill_filename(const string & line, string & filename)
     else return true;
 }
 
-bool Boundary::read_rover_config(){
+bool Boundary::read_rover_config(const double & x, const double & y){
     bool is_rover = false;
     string buffer; 
     rover_command_file.open(rover_command_filename);
@@ -278,7 +277,8 @@ bool Boundary::read_rover_config(){
                 // cout << temp1 << temp2 << temp3 << temp4 << temp5 << temp6 << temp7 << temp8 << temp9 << temp10;
                 print_message_in_log("Command to create rover has been read! ");
                 controller->rover_create(temp1, temp2, temp5, temp6, temp7, temp8);
-                controller->route();
+                if(controller->route(x, y) == 0) return 0;
+                controller->print_path();
                 is_rover = true;
             }
             else{
